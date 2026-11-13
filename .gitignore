@@ -23,3 +23,16 @@ __pycache__/
 *.log
 .env
 .env.*
+
+# Bundled subtitle rendering runtime is required for reproduction.
+!/vendor/
+/vendor/*
+!/vendor/ffmpeg
+!/vendor/ffprobe
+!/vendor/sysroot/
+
+# Local server markers and reproducible render intermediates.
+/data/server-ready
+/data/baseline-nosub.mp4
+/data/projects/*-work-*/
+/data/projects/*.json.tmp-*

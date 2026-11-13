@@ -1,0 +1,249 @@
+{
+  "passed": 58,
+  "failed": 0,
+  "results": [
+    {
+      "name": "source is exposed as read-only",
+      "pass": true
+    },
+    {
+      "name": "source hash is stable",
+      "pass": true
+    },
+    {
+      "name": "project is independent of source",
+      "pass": true
+    },
+    {
+      "name": "save increments the engineering revision",
+      "pass": true
+    },
+    {
+      "name": "save preserves per-group original/translation binding",
+      "pass": true
+    },
+    {
+      "name": "settings are persisted with the project",
+      "pass": true
+    },
+    {
+      "name": "reopening a saved project restores the edit",
+      "pass": true
+    },
+    {
+      "name": "source hash still matches after project save",
+      "pass": true
+    },
+    {
+      "name": "source file bytes are untouched by editing",
+      "pass": true
+    },
+    {
+      "name": "stale save is rejected with 409",
+      "pass": true
+    },
+    {
+      "name": "[long-en] all roles reassemble without dropping text",
+      "pass": true
+    },
+    {
+      "name": "[long-en] no line violates kinsoku",
+      "pass": true
+    },
+    {
+      "name": "[long-en] every line fits the measured width",
+      "pass": true
+    },
+    {
+      "name": "[long-en] glyph clusters are not split",
+      "pass": true
+    },
+    {
+      "name": "[cjk-punct] all roles reassemble without dropping text",
+      "pass": true
+    },
+    {
+      "name": "[cjk-punct] no line violates kinsoku",
+      "pass": true
+    },
+    {
+      "name": "[cjk-punct] every line fits the measured width",
+      "pass": true
+    },
+    {
+      "name": "[cjk-punct] glyph clusters are not split",
+      "pass": true
+    },
+    {
+      "name": "[combining] all roles reassemble without dropping text",
+      "pass": true
+    },
+    {
+      "name": "[combining] no line violates kinsoku",
+      "pass": true
+    },
+    {
+      "name": "[combining] every line fits the measured width",
+      "pass": true
+    },
+    {
+      "name": "[combining] glyph clusters are not split",
+      "pass": true
+    },
+    {
+      "name": "unbreakable long word is reported",
+      "pass": true
+    },
+    {
+      "name": "unbreakable word keeps full text",
+      "pass": true
+    },
+    {
+      "name": "overflow exposes adjustable options",
+      "pass": true
+    },
+    {
+      "name": "two overlapping groups produce two distinct panels",
+      "pass": true
+    },
+    {
+      "name": "overlapping groups never cross-bind original and translation",
+      "pass": true
+    },
+    {
+      "name": "overlap is flagged for review",
+      "pass": true
+    },
+    {
+      "name": "role markers keep their configured colors",
+      "pass": true,
+      "detail": "[{\"text\":\"原\",\"color\":\"rgb(255, 216, 107)\",\"fontFamily\":\"\\\"Documentary Serif\\\", \\\"Documentary Sans SC\\\", \\\"Documentary Sans\\\", \\\"Documentary Emoji\\\", sans-serif\"},{\"text\":\"译\",\"color\":\"rgb(126, 240, 168)\",\"fontFamily\":\"\\\"Documentary Serif\\\", \\\"Documentary Sans SC\\\", \\\"Documentary Sans\\\", \\\"Documentary Emoji\\\", sans-serif\"}]"
+    },
+    {
+      "name": "role markers use the declared font stack",
+      "pass": true
+    },
+    {
+      "name": "cue start maps to exact frame",
+      "pass": true
+    },
+    {
+      "name": "mid-cue maps deterministically",
+      "pass": true
+    },
+    {
+      "name": "overlapping timing yields a shared active segment",
+      "pass": true
+    },
+    {
+      "name": "render produced an mp4",
+      "pass": true
+    },
+    {
+      "name": "render timeline matches the source video",
+      "pass": true
+    },
+    {
+      "name": "manifest records requested font HTTP status",
+      "pass": true
+    },
+    {
+      "name": "manifest records measured platform fonts",
+      "pass": true
+    },
+    {
+      "name": "measured font audit records the rendered weight",
+      "pass": true
+    },
+    {
+      "name": "emoji resolves to the color emoji font",
+      "pass": true
+    },
+    {
+      "name": "combining IPA line resolves through declared fonts",
+      "pass": true
+    },
+    {
+      "name": "no safe-margin violations at audited frames",
+      "pass": true
+    },
+    {
+      "name": "no original/translation binding mismatch at audited frames",
+      "pass": true
+    },
+    {
+      "name": "long word occupies one unbroken measured line",
+      "pass": true
+    },
+    {
+      "name": "frame 0.5s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=0 t=0"
+    },
+    {
+      "name": "frame 2s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=8010 t=4826"
+    },
+    {
+      "name": "frame 2s text stays inside the 90px safe margin",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "frame 2s carries both original and translation",
+      "pass": true
+    },
+    {
+      "name": "frame 5s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=12578 t=4339"
+    },
+    {
+      "name": "frame 5s text stays inside the 90px safe margin",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "frame 5s carries both original and translation",
+      "pass": true
+    },
+    {
+      "name": "frame 9s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=10093 t=5874"
+    },
+    {
+      "name": "frame 9s text stays inside the 90px safe margin",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "frame 9s carries both original and translation",
+      "pass": true
+    },
+    {
+      "name": "frame 12.6s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=10805 t=6268"
+    },
+    {
+      "name": "frame 12.6s text stays inside the 90px safe margin",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "frame 12.6s carries both original and translation",
+      "pass": true
+    },
+    {
+      "name": "frame 14.6s subtitle presence matches the cue schedule",
+      "pass": true,
+      "detail": "pixels o=0 t=0"
+    },
+    {
+      "name": "review mask render exists",
+      "pass": true
+    }
+  ]
+}

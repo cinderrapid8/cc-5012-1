@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>双语纪录片字幕制作台</title>
+<link rel="stylesheet" href="/public/css/app.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <strong>双语纪录片字幕制作台</strong>
+    <span id="source-title" class="muted">载入中…</span>
+  </div>
+  <div class="source-badge" id="source-badge">源：只读</div>
+  <div class="actions">
+    <button id="btn-new-project" class="btn subtle" title="从只读源创建独立工程">新建工程</button>
+    <button id="btn-save" class="btn primary">保存</button>
+    <button id="btn-render" class="btn accent">渲染烧录</button>
+    <button id="btn-mask" class="btn subtle" title="输出带字幕遮罩的核对片">渲染核对遮罩</button>
+  </div>
+</header>
+
+<main class="workbench">
+  <aside class="panel left">
+    <section class="section">
+      <h2>源字幕（只读）</h2>
+      <div id="source-meta" class="kv"></div>
+      <div id="source-groups" class="source-list"></div>
+    </section>
+    <section class="section">
+      <h2>工程版本</h2>
+      <div id="projects" class="project-list"></div>
+      <div id="revision-line" class="muted small"></div>
+    </section>
+    <section class="section">
+      <h2>字体与回退</h2>
+      <div id="fonts" class="font-list"></div>
+    </section>
+  </aside>
+
+  <section class="stage-wrap">
+    <div class="stage-toolbar">
+      <div class="toolbar-group">
+        <label>时间</label>
+        <input id="scrub" type="range" min="0" max="15" step="0.04" value="1" />
+        <span id="timecode" class="mono">00:01.000 · F25</span>
+      </div>
+      <div class="toolbar-group">
+        <button id="play" class="btn small">播放</button>
+        <button id="step-back" class="btn small subtle">−1 帧</button>
+        <button id="step-fwd" class="btn small subtle">+1 帧</button>
+        <label class="toggle"><input id="guides" type="checkbox" /> 辅助线</label>
+        <label class="toggle"><input id="show-frame" type="checkbox" checked /> 预览视频</label>
+      </div>
+      <div class="toolbar-group zoom">
+        <label>预览缩放</label>
+        <input id="zoom" type="range" min="20" max="100" step="1" value="52" />
+        <span id="zoom-label" class="mono">52%</span>
+        <span class="muted small" id="canvas-note">画布固定 1920×1080</span>
+      </div>
+    </div>
+    <div class="stage-scroll">
+      <div id="stage-shell" class="stage-shell">
+        <video id="video" muted playsinline preload="auto" src="/media/test-documentary.mp4"></video>
+        <div id="overlay"></div>
+      </div>
+    </div>
+    <div class="stage-foot">
+      <span id="live-issues" class="status warn"></span>
+      <span id="save-status" class="status"></span>
+    </div>
+  </section>
+
+  <aside class="panel right">
+    <section class="section">
+      <h2>字幕组</h2>
+      <div id="group-tabs" class="group-tabs"></div>
+    </section>
+    <section class="section editor" id="editor"></section>
+    <section class="section">
+      <h2>排版诊断</h2>
+      <div id="diagnostics" class="diagnostics"></div>
+    </section>
+    <section class="section">
+      <h2>渲染记录</h2>
+      <div id="renders" class="render-list"></div>
+    </section>
+  </aside>
+</main>
+
+<dialog id="confirm-dialog">
+  <form method="dialog" class="dialog-body">
+    <h3 id="dialog-title">确认</h3>
+    <p id="dialog-text"></p>
+    <menu>
+      <button value="cancel" class="btn subtle">取消</button>
+      <button value="ok" class="btn primary">确认</button>
+    </menu>
+  </form>
+</dialog>
+
+<script type="module" src="/public/js/app.js"></script>
+</body>
+</html>

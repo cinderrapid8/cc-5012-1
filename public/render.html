@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8" />
+<title>Render Surface</title>
+<style>
+  html, body { margin: 0; padding: 0; width: 1920px; height: 1080px; background: transparent; overflow: hidden; }
+  #stage { position: absolute; inset: 0; width: 1920px; height: 1080px; }
+</style>
+</head>
+<body>
+<div id="stage"></div>
+<script type="module">
+import * as Engine from '/public/js/layout-engine.js';
+
+const stage = document.getElementById('stage');
+let settings;
+let canvas;
+
+function domLines() {
+  const out = [];
+  for (const node of document.querySelectorAll('#subtitle-canvas [data-line]')) {
+    const rect = node.getBoundingClientRect();
+    out.push({
+      groupId: node.dataset.group,
+      role: node.dataset.role,
+      lineIndex: Number(node.dataset.lineIndex),
+      text: node.textContent,
+      rect: { x: rect.x, y: rect.y, width: rect.width, height: rect.height },
+      fontSize: getComputedStyle(node).fontSize,
+      fontFamily: getComputedStyle(node).fontFamily,
+    });
+  }
+  return out;
+}
+
+function paint(layout, options) {
+  const existing = document.getElementById('subtitle-canvas');
+  if (existing) existing.remove();
+  stage.insertAdjacentHTML('beforeend', Engine.renderOverlayHTML(layout, settings, options));
+  return domLines();
+}
+
+window.RenderPage = {
+  async init(payload) {
+    settings = payload.settings;
+    canvas = payload.canvas;
+    window.RenderPage.settings = settings;
+    document.head.insertAdjacentHTML('beforeend', `<style>${Engine.fontFaceCSS(settings)}</style>`);
+    await Engine.ensureFontsLoaded(settings, [settings.original.fontSize, settings.translation.fontSize, 40]);
+    return await Engine.verifyFontRequests(settings);
+  },
+  async layOnly(payload) {
+    return Engine.layoutSummary(Engine.buildLayout({ activeGroups: payload.activeGroups, settings, canvas }));
+  },
+  async render(payload) {
+    const layout = Engine.buildLayout({
+      activeGroups: payload.activeGroups,
+      settings,
+      canvas,
+    });
+    const lines = paint(layout, { guides: Boolean(payload.guides), review: payload.review, showTags: Boolean(payload.showTags) });
+    const summary = Engine.layoutSummary(layout);
+    return { layout: { ...summary, domLines: lines } };
+  },
+  linesFor() {
+    return domLines();
+  },
+  async inspect(payload) {
+    const results = [];
+    for (const frame of payload.frames) {
+      const active = payload.cues
+        .filter((cue) => frame >= Math.round(cue.start * payload.fps) && frame < Math.round(cue.end * payload.fps))
+        .map((cue) => ({ id: cue.id, original: cue.original, translation: cue.translation, start: cue.start, end: cue.end }));
+      const layout = Engine.buildLayout({ activeGroups: active, settings, canvas });
+      const summary = Engine.layoutSummary(layout);
+      const violations = [];
+      for (const block of summary.blocks) {
+        if (block.panel.x < summary.safeMarginPx - 0.5 || block.panel.x + block.panel.width > canvas.width - summary.safeMarginPx + 0.5) {
+          violations.push({ groupId: block.groupId, type: 'safe-margin-x' });
+        }
+        if (block.panel.y < summary.safeMarginPx - 0.5 || block.panel.y + block.panel.height > canvas.height - summary.safeMarginPx + 0.5) {
+          violations.push({ groupId: block.groupId, type: 'safe-margin-y' });
+        }
+        for (const role of block.roles) {
+          for (const line of role.lines) {
+            if (line.x < summary.safeMarginPx - 1 || line.x + line.width > canvas.width - summary.safeMarginPx + 1) {
+              violations.push({ groupId: block.groupId, role: role.role, type: 'line-safe-margin', lineIndex: line.lineIndex });
+            }
+          }
+        }
+      }
+      const missingBindings = summary.blocks.map((block) => ({
+        groupId: block.groupId,
+        sameOrigin: block.roles.every((role) => role.text === (active.find((a) => a.id === block.groupId)?.[role.role] ?? role.text)),
+      })).filter((item) => !item.sameOrigin);
+      paint(layout, { guides: true, review: { frame, fps: payload.fps } });
+      results.push({ frame, active: active.map((a) => a.id), blocks: summary.blocks, violations, missingBindings });
+    }
+    return { fps: payload.fps, frames: results, allowedBounds: payload.allowedBounds };
+  },
+  async perLineFonts(groupId) {
+    return domLines().filter((line) => !groupId || line.groupId === groupId);
+  },
+};
+</script>
+</body>
+</html>

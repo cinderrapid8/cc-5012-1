@@ -1,0 +1,103 @@
+{
+  "title": "Trench Signals — Bilingual Subtitle Bench",
+  "sourceId": "trench-signals",
+  "video": "media/test-documentary.mp4",
+  "fps": 25,
+  "duration": 15,
+  "canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "languages": {
+    "original": "en",
+    "translation": "zh-Hans"
+  },
+  "groups": [
+    {
+      "id": "g01",
+      "start": 1,
+      "end": 4,
+      "original": "The crew lowered a hydrophone into the trench, where a single call—",
+      "translation": "船员把水听器放入海沟，那里只传来一声呼唤——"
+    },
+    {
+      "id": "g02",
+      "start": 4.6,
+      "end": 8.2,
+      "original": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+      "translation": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。"
+    },
+    {
+      "id": "g03",
+      "start": 8.4,
+      "end": 11.2,
+      "original": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+      "translation": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。"
+    },
+    {
+      "id": "g04",
+      "start": 11.4,
+      "end": 13.4,
+      "original": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+      "translation": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+    },
+    {
+      "id": "g05",
+      "start": 12.2,
+      "end": 14.2,
+      "original": "Overlap segment B must stay paired with its own translation.",
+      "translation": "交叠片段乙必须与自己的译文保持配对。"
+    }
+  ],
+  "settings": {
+    "fonts": {
+      "requestedStack": [
+        "Documentary Serif",
+        "Documentary Sans SC",
+        "Documentary Sans",
+        "Documentary Emoji"
+      ],
+      "declared": [
+        {
+          "family": "Documentary Serif",
+          "file": "assets/fonts/DocumentarySerif-Regular.ttf",
+          "note": "项目要求的衬线字体，当前交付包未包含此文件"
+        },
+        {
+          "family": "Documentary Sans SC",
+          "file": "assets/fonts/NotoSansSC-VF.ttf"
+        },
+        {
+          "family": "Documentary Sans",
+          "file": "assets/fonts/NotoSans-VF.ttf"
+        },
+        {
+          "family": "Documentary Emoji",
+          "file": "assets/fonts/NotoColorEmoji.ttf"
+        }
+      ]
+    },
+    "original": {
+      "fontSize": 46,
+      "fontWeight": 400,
+      "maxLines": 2,
+      "color": "#ffd86b",
+      "tracking": 0
+    },
+    "translation": {
+      "fontSize": 34,
+      "fontWeight": 400,
+      "maxLines": 2,
+      "color": "#7ef0a8",
+      "tracking": 0
+    },
+    "safeMarginPx": 90,
+    "maxTextWidthPx": 1360,
+    "lineHeight": 1.28,
+    "panelPadding": 14,
+    "roleGap": 10,
+    "blockGap": 12,
+    "panelAlpha": 0.62,
+    "emergencyBreak": false
+  }
+}

@@ -1,0 +1,2750 @@
+{
+  "output": "trench-signals-p2-mask-1794606191512.mp4",
+  "mode": "preview-mask",
+  "fps": 25,
+  "totalFrames": 375,
+  "duration": 15,
+  "video": "media/test-documentary.mp4",
+  "projectId": "trench-signals-p2",
+  "revision": 1,
+  "sourceId": "trench-signals",
+  "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+  "createdAt": "2026-11-13T21:43:14.840Z",
+  "actor": "editor",
+  "fontStatus": [
+    {
+      "family": "Documentary Serif",
+      "file": "assets/fonts/DocumentarySerif-Regular.ttf",
+      "httpStatus": 404,
+      "requestFailed": true
+    },
+    {
+      "family": "Documentary Sans SC",
+      "file": "assets/fonts/NotoSansSC-VF.ttf",
+      "httpStatus": 200,
+      "requestFailed": false
+    },
+    {
+      "family": "Documentary Sans",
+      "file": "assets/fonts/NotoSans-VF.ttf",
+      "httpStatus": 200,
+      "requestFailed": false
+    },
+    {
+      "family": "Documentary Emoji",
+      "file": "assets/fonts/NotoColorEmoji.ttf",
+      "httpStatus": 200,
+      "requestFailed": false
+    }
+  ],
+  "fontAudit": [
+    {
+      "startFrame": 25,
+      "cueIds": [
+        "g01"
+      ],
+      "lines": [
+        {
+          "groupId": "g01",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 29
+            }
+          ]
+        },
+        {
+          "groupId": "g01",
+          "role": "original",
+          "lineIndex": 1,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 37
+            }
+          ]
+        },
+        {
+          "groupId": "g01",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 21
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startFrame": 115,
+      "cueIds": [
+        "g02"
+      ],
+      "lines": [
+        {
+          "groupId": "g02",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 20
+            }
+          ]
+        },
+        {
+          "groupId": "g02",
+          "role": "original",
+          "lineIndex": 1,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 47
+            }
+          ]
+        },
+        {
+          "groupId": "g02",
+          "role": "original",
+          "lineIndex": 2,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 36
+            }
+          ]
+        },
+        {
+          "groupId": "g02",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 24
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startFrame": 210,
+      "cueIds": [
+        "g03"
+      ],
+      "lines": [
+        {
+          "groupId": "g03",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 44
+            }
+          ]
+        },
+        {
+          "groupId": "g03",
+          "role": "original",
+          "lineIndex": 1,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 54
+            }
+          ]
+        },
+        {
+          "groupId": "g03",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 20
+            }
+          ]
+        },
+        {
+          "groupId": "g03",
+          "role": "translation",
+          "lineIndex": 1,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 20
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startFrame": 285,
+      "cueIds": [
+        "g04"
+      ],
+      "lines": [
+        {
+          "groupId": "g04",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 27
+            },
+            {
+              "family": "Noto Sans",
+              "postScriptName": "NotoSans-Regular",
+              "custom": true,
+              "glyphCount": 3
+            },
+            {
+              "family": "Noto Color Emoji",
+              "postScriptName": "NotoColorEmoji",
+              "custom": true,
+              "glyphCount": 2
+            }
+          ]
+        },
+        {
+          "groupId": "g04",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 17
+            },
+            {
+              "family": "Noto Sans",
+              "postScriptName": "NotoSans-Regular",
+              "custom": true,
+              "glyphCount": 3
+            },
+            {
+              "family": "Noto Color Emoji",
+              "postScriptName": "NotoColorEmoji",
+              "custom": true,
+              "glyphCount": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startFrame": 305,
+      "cueIds": [
+        "g04",
+        "g05"
+      ],
+      "lines": [
+        {
+          "groupId": "g04",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 27
+            },
+            {
+              "family": "Noto Sans",
+              "postScriptName": "NotoSans-Regular",
+              "custom": true,
+              "glyphCount": 3
+            },
+            {
+              "family": "Noto Color Emoji",
+              "postScriptName": "NotoColorEmoji",
+              "custom": true,
+              "glyphCount": 2
+            }
+          ]
+        },
+        {
+          "groupId": "g04",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 17
+            },
+            {
+              "family": "Noto Sans",
+              "postScriptName": "NotoSans-Regular",
+              "custom": true,
+              "glyphCount": 3
+            },
+            {
+              "family": "Noto Color Emoji",
+              "postScriptName": "NotoColorEmoji",
+              "custom": true,
+              "glyphCount": 2
+            }
+          ]
+        },
+        {
+          "groupId": "g05",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 60
+            }
+          ]
+        },
+        {
+          "groupId": "g05",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 18
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "startFrame": 335,
+      "cueIds": [
+        "g05"
+      ],
+      "lines": [
+        {
+          "groupId": "g05",
+          "role": "original",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 60
+            }
+          ]
+        },
+        {
+          "groupId": "g05",
+          "role": "translation",
+          "lineIndex": 0,
+          "fonts": [
+            {
+              "family": "Noto Sans SC Thin",
+              "postScriptName": "NotoSansSC-Thin",
+              "custom": true,
+              "glyphCount": 18
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sheets": [
+    {
+      "file": "sheet-000025.png",
+      "startFrame": 25,
+      "endFrame": 100,
+      "timecode": "1.000s",
+      "cueIds": [
+        "g01"
+      ],
+      "blocks": [
+        {
+          "groupId": "g01",
+          "panel": {
+            "x": 538,
+            "y": 790,
+            "width": 845,
+            "height": 200
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "The crew lowered a hydrophone into the trench, where a single call—",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "The crew lowered a hydrophone",
+                  "start": 0,
+                  "end": 30,
+                  "width": 688.14,
+                  "height": 59,
+                  "x": 598,
+                  "y": 804,
+                  "over": 0
+                },
+                {
+                  "lineIndex": 1,
+                  "text": "into the trench, where a single call—",
+                  "start": 30,
+                  "end": 67,
+                  "width": 771.49,
+                  "height": 59,
+                  "x": 598,
+                  "y": 863,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "The crew lowered a hydrophone into the trench, where a single call—",
+                "expected": "The crew lowered a hydrophone into the trench, where a single call—"
+              }
+            },
+            {
+              "role": "translation",
+              "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                  "start": 0,
+                  "end": 22,
+                  "width": 736.98,
+                  "height": 44,
+                  "x": 615,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                "expected": "船员把水听器放入海沟，那里只传来一声呼唤——"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": []
+    },
+    {
+      "file": "sheet-000115.png",
+      "startFrame": 115,
+      "endFrame": 205,
+      "timecode": "4.600s",
+      "cueIds": [
+        "g02"
+      ],
+      "blocks": [
+        {
+          "groupId": "g02",
+          "panel": {
+            "x": 373,
+            "y": 731,
+            "width": 1175,
+            "height": 259
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "A single diagnosis —",
+                  "start": 0,
+                  "end": 21,
+                  "width": 431.15,
+                  "height": 59,
+                  "x": 433,
+                  "y": 745,
+                  "over": 0
+                },
+                {
+                  "lineIndex": 1,
+                  "text": "pneumonoultramicroscopicsilicovolcanoconiosis —",
+                  "start": 21,
+                  "end": 69,
+                  "width": 1101.46,
+                  "height": 59,
+                  "x": 433,
+                  "y": 804,
+                  "over": 0
+                },
+                {
+                  "lineIndex": 2,
+                  "text": "was treated as impossible out there.",
+                  "start": 69,
+                  "end": 105,
+                  "width": 770.79,
+                  "height": 59,
+                  "x": 433,
+                  "y": 863,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                "expected": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there."
+              }
+            },
+            {
+              "role": "translation",
+              "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                  "start": 0,
+                  "end": 24,
+                  "width": 816,
+                  "height": 44,
+                  "x": 576,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                "expected": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "max-lines-exceeded",
+          "needed": 3,
+          "maxLines": 2,
+          "role": "original",
+          "groupId": "g02"
+        }
+      ]
+    },
+    {
+      "file": "sheet-000210.png",
+      "startFrame": 210,
+      "endFrame": 280,
+      "timecode": "8.400s",
+      "cueIds": [
+        "g03"
+      ],
+      "blocks": [
+        {
+          "groupId": "g03",
+          "panel": {
+            "x": 402,
+            "y": 746,
+            "width": 1117,
+            "height": 244
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "He said, “... ‘Really? — No!’ ”—and the room",
+                  "start": 0,
+                  "end": 45,
+                  "width": 1043.12,
+                  "height": 59,
+                  "x": 462,
+                  "y": 760,
+                  "over": 0
+                },
+                {
+                  "lineIndex": 1,
+                  "text": "fell silent, save for the tide against the iron walls.",
+                  "start": 45,
+                  "end": 99,
+                  "width": 1035.46,
+                  "height": 59,
+                  "x": 462,
+                  "y": 819,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                "expected": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls."
+              }
+            },
+            {
+              "role": "translation",
+              "text": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "他说：“……‘真的？——不！’”……现场一",
+                  "start": 0,
+                  "end": 21,
+                  "width": 685.98,
+                  "height": 44,
+                  "x": 641,
+                  "y": 888,
+                  "over": 0
+                },
+                {
+                  "lineIndex": 1,
+                  "text": "片沉默，只有潮声在铁壁间回荡，久久不散。",
+                  "start": 21,
+                  "end": 41,
+                  "width": 680,
+                  "height": 44,
+                  "x": 641,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                "expected": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": []
+    },
+    {
+      "file": "sheet-000285.png",
+      "startFrame": 285,
+      "endFrame": 305,
+      "timecode": "11.400s",
+      "cueIds": [
+        "g04"
+      ],
+      "blocks": [
+        {
+          "groupId": "g04",
+          "panel": {
+            "x": 549,
+            "y": 849,
+            "width": 823,
+            "height": 141
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "start": 0,
+                  "end": 32,
+                  "width": 748.57,
+                  "height": 59,
+                  "x": 609,
+                  "y": 863,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+              }
+            },
+            {
+              "role": "translation",
+              "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "start": 0,
+                  "end": 22,
+                  "width": 559.71,
+                  "height": 44,
+                  "x": 704,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": []
+    },
+    {
+      "file": "sheet-000305.png",
+      "startFrame": 305,
+      "endFrame": 335,
+      "timecode": "12.200s",
+      "cueIds": [
+        "g04",
+        "g05"
+      ],
+      "blocks": [
+        {
+          "groupId": "g04",
+          "panel": {
+            "x": 549,
+            "y": 696,
+            "width": 823,
+            "height": 141
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "start": 0,
+                  "end": 32,
+                  "width": 748.57,
+                  "height": 59,
+                  "x": 609,
+                  "y": 710,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+              }
+            },
+            {
+              "role": "translation",
+              "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "start": 0,
+                  "end": 22,
+                  "width": 559.71,
+                  "height": 44,
+                  "x": 704,
+                  "y": 779,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+              }
+            }
+          ]
+        },
+        {
+          "groupId": "g05",
+          "panel": {
+            "x": 276,
+            "y": 849,
+            "width": 1368,
+            "height": 141
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "Overlap segment B must stay paired with its own translation.",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "Overlap segment B must stay paired with its own translation.",
+                  "start": 0,
+                  "end": 60,
+                  "width": 1293.68,
+                  "height": 59,
+                  "x": 336,
+                  "y": 863,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "Overlap segment B must stay paired with its own translation.",
+                "expected": "Overlap segment B must stay paired with its own translation."
+              }
+            },
+            {
+              "role": "translation",
+              "text": "交叠片段乙必须与自己的译文保持配对。",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "交叠片段乙必须与自己的译文保持配对。",
+                  "start": 0,
+                  "end": 18,
+                  "width": 612,
+                  "height": 44,
+                  "x": 677,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                "expected": "交叠片段乙必须与自己的译文保持配对。"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "type": "time-overlap",
+          "groupIds": [
+            "g04",
+            "g05"
+          ],
+          "overlapSeconds": 1.2,
+          "message": "两个字幕组的时间区间交叠，将分别显示在独立面板中，绝不交叉拼接"
+        }
+      ]
+    },
+    {
+      "file": "sheet-000335.png",
+      "startFrame": 335,
+      "endFrame": 355,
+      "timecode": "13.400s",
+      "cueIds": [
+        "g05"
+      ],
+      "blocks": [
+        {
+          "groupId": "g05",
+          "panel": {
+            "x": 276,
+            "y": 849,
+            "width": 1368,
+            "height": 141
+          },
+          "roles": [
+            {
+              "role": "original",
+              "text": "Overlap segment B must stay paired with its own translation.",
+              "fontSize": 46,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "Overlap segment B must stay paired with its own translation.",
+                  "start": 0,
+                  "end": 60,
+                  "width": 1293.68,
+                  "height": 59,
+                  "x": 336,
+                  "y": 863,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "Overlap segment B must stay paired with its own translation.",
+                "expected": "Overlap segment B must stay paired with its own translation."
+              }
+            },
+            {
+              "role": "translation",
+              "text": "交叠片段乙必须与自己的译文保持配对。",
+              "fontSize": 34,
+              "lines": [
+                {
+                  "lineIndex": 0,
+                  "text": "交叠片段乙必须与自己的译文保持配对。",
+                  "start": 0,
+                  "end": 18,
+                  "width": 612,
+                  "height": 44,
+                  "x": 677,
+                  "y": 932,
+                  "over": 0
+                }
+              ],
+              "integrity": {
+                "ok": true,
+                "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                "expected": "交叠片段乙必须与自己的译文保持配对。"
+              }
+            }
+          ]
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "audit": {
+    "fps": 25,
+    "frames": [
+      {
+        "frame": 25,
+        "active": [
+          "g01"
+        ],
+        "blocks": [
+          {
+            "groupId": "g01",
+            "start": 1,
+            "end": 4,
+            "panel": {
+              "x": 538,
+              "y": 790,
+              "width": 845,
+              "height": 200
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "The crew lowered a hydrophone into the trench, where a single call—",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 598,
+                  "y": 804,
+                  "width": 771.49,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "The crew lowered a hydrophone",
+                    "start": 0,
+                    "end": 30,
+                    "width": 688.14,
+                    "height": 59,
+                    "x": 598,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "into the trench, where a single call—",
+                    "start": 30,
+                    "end": 67,
+                    "width": 771.49,
+                    "height": 59,
+                    "x": 598,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "The crew lowered a hydrophone into the trench, where a single call—",
+                  "expected": "The crew lowered a hydrophone into the trench, where a single call—"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 598,
+                  "y": 932,
+                  "width": 736.98,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                    "start": 0,
+                    "end": 22,
+                    "width": 736.98,
+                    "height": 44,
+                    "x": 615,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                  "expected": "船员把水听器放入海沟，那里只传来一声呼唤——"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 62,
+        "active": [
+          "g01"
+        ],
+        "blocks": [
+          {
+            "groupId": "g01",
+            "start": 1,
+            "end": 4,
+            "panel": {
+              "x": 538,
+              "y": 790,
+              "width": 845,
+              "height": 200
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "The crew lowered a hydrophone into the trench, where a single call—",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 598,
+                  "y": 804,
+                  "width": 771.49,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "The crew lowered a hydrophone",
+                    "start": 0,
+                    "end": 30,
+                    "width": 688.14,
+                    "height": 59,
+                    "x": 598,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "into the trench, where a single call—",
+                    "start": 30,
+                    "end": 67,
+                    "width": 771.49,
+                    "height": 59,
+                    "x": 598,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "The crew lowered a hydrophone into the trench, where a single call—",
+                  "expected": "The crew lowered a hydrophone into the trench, where a single call—"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 598,
+                  "y": 932,
+                  "width": 736.98,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                    "start": 0,
+                    "end": 22,
+                    "width": 736.98,
+                    "height": 44,
+                    "x": 615,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                  "expected": "船员把水听器放入海沟，那里只传来一声呼唤——"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 99,
+        "active": [
+          "g01"
+        ],
+        "blocks": [
+          {
+            "groupId": "g01",
+            "start": 1,
+            "end": 4,
+            "panel": {
+              "x": 538,
+              "y": 790,
+              "width": 845,
+              "height": 200
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "The crew lowered a hydrophone into the trench, where a single call—",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 598,
+                  "y": 804,
+                  "width": 771.49,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "The crew lowered a hydrophone",
+                    "start": 0,
+                    "end": 30,
+                    "width": 688.14,
+                    "height": 59,
+                    "x": 598,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "into the trench, where a single call—",
+                    "start": 30,
+                    "end": 67,
+                    "width": 771.49,
+                    "height": 59,
+                    "x": 598,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "The crew lowered a hydrophone into the trench, where a single call—",
+                  "expected": "The crew lowered a hydrophone into the trench, where a single call—"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 598,
+                  "y": 932,
+                  "width": 736.98,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                    "start": 0,
+                    "end": 22,
+                    "width": 736.98,
+                    "height": 44,
+                    "x": 615,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "船员把水听器放入海沟，那里只传来一声呼唤——",
+                  "expected": "船员把水听器放入海沟，那里只传来一声呼唤——"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 115,
+        "active": [
+          "g02"
+        ],
+        "blocks": [
+          {
+            "groupId": "g02",
+            "start": 4.6,
+            "end": 8.2,
+            "panel": {
+              "x": 373,
+              "y": 731,
+              "width": 1175,
+              "height": 259
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 433,
+                  "y": 745,
+                  "width": 1101.46,
+                  "height": 177
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "A single diagnosis —",
+                    "start": 0,
+                    "end": 21,
+                    "width": 431.15,
+                    "height": 59,
+                    "x": 433,
+                    "y": 745,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "pneumonoultramicroscopicsilicovolcanoconiosis —",
+                    "start": 21,
+                    "end": 69,
+                    "width": 1101.46,
+                    "height": 59,
+                    "x": 433,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 2,
+                    "text": "was treated as impossible out there.",
+                    "start": 69,
+                    "end": 105,
+                    "width": 770.79,
+                    "height": 59,
+                    "x": 433,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                  "expected": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there."
+                },
+                "boundaryViolations": [],
+                "issues": [
+                  {
+                    "type": "max-lines-exceeded",
+                    "needed": 3,
+                    "maxLines": 2,
+                    "role": "original",
+                    "groupId": "g02"
+                  }
+                ]
+              },
+              {
+                "role": "translation",
+                "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 433,
+                  "y": 932,
+                  "width": 816,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                    "start": 0,
+                    "end": 24,
+                    "width": 816,
+                    "height": 44,
+                    "x": 576,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                  "expected": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 160,
+        "active": [
+          "g02"
+        ],
+        "blocks": [
+          {
+            "groupId": "g02",
+            "start": 4.6,
+            "end": 8.2,
+            "panel": {
+              "x": 373,
+              "y": 731,
+              "width": 1175,
+              "height": 259
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 433,
+                  "y": 745,
+                  "width": 1101.46,
+                  "height": 177
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "A single diagnosis —",
+                    "start": 0,
+                    "end": 21,
+                    "width": 431.15,
+                    "height": 59,
+                    "x": 433,
+                    "y": 745,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "pneumonoultramicroscopicsilicovolcanoconiosis —",
+                    "start": 21,
+                    "end": 69,
+                    "width": 1101.46,
+                    "height": 59,
+                    "x": 433,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 2,
+                    "text": "was treated as impossible out there.",
+                    "start": 69,
+                    "end": 105,
+                    "width": 770.79,
+                    "height": 59,
+                    "x": 433,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                  "expected": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there."
+                },
+                "boundaryViolations": [],
+                "issues": [
+                  {
+                    "type": "max-lines-exceeded",
+                    "needed": 3,
+                    "maxLines": 2,
+                    "role": "original",
+                    "groupId": "g02"
+                  }
+                ]
+              },
+              {
+                "role": "translation",
+                "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 433,
+                  "y": 932,
+                  "width": 816,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                    "start": 0,
+                    "end": 24,
+                    "width": 816,
+                    "height": 44,
+                    "x": 576,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                  "expected": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 204,
+        "active": [
+          "g02"
+        ],
+        "blocks": [
+          {
+            "groupId": "g02",
+            "start": 4.6,
+            "end": 8.2,
+            "panel": {
+              "x": 373,
+              "y": 731,
+              "width": 1175,
+              "height": 259
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 433,
+                  "y": 745,
+                  "width": 1101.46,
+                  "height": 177
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "A single diagnosis —",
+                    "start": 0,
+                    "end": 21,
+                    "width": 431.15,
+                    "height": 59,
+                    "x": 433,
+                    "y": 745,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "pneumonoultramicroscopicsilicovolcanoconiosis —",
+                    "start": 21,
+                    "end": 69,
+                    "width": 1101.46,
+                    "height": 59,
+                    "x": 433,
+                    "y": 804,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 2,
+                    "text": "was treated as impossible out there.",
+                    "start": 69,
+                    "end": 105,
+                    "width": 770.79,
+                    "height": 59,
+                    "x": 433,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+                  "expected": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there."
+                },
+                "boundaryViolations": [],
+                "issues": [
+                  {
+                    "type": "max-lines-exceeded",
+                    "needed": 3,
+                    "maxLines": 2,
+                    "role": "original",
+                    "groupId": "g02"
+                  }
+                ]
+              },
+              {
+                "role": "translation",
+                "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 433,
+                  "y": 932,
+                  "width": 816,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                    "start": 0,
+                    "end": 24,
+                    "width": 816,
+                    "height": 44,
+                    "x": 576,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+                  "expected": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 210,
+        "active": [
+          "g03"
+        ],
+        "blocks": [
+          {
+            "groupId": "g03",
+            "start": 8.4,
+            "end": 11.2,
+            "panel": {
+              "x": 402,
+              "y": 746,
+              "width": 1117,
+              "height": 244
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 462,
+                  "y": 760,
+                  "width": 1043.12,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "He said, “... ‘Really? — No!’ ”—and the room",
+                    "start": 0,
+                    "end": 45,
+                    "width": 1043.12,
+                    "height": 59,
+                    "x": 462,
+                    "y": 760,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "fell silent, save for the tide against the iron walls.",
+                    "start": 45,
+                    "end": 99,
+                    "width": 1035.46,
+                    "height": 59,
+                    "x": 462,
+                    "y": 819,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                  "expected": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 462,
+                  "y": 888,
+                  "width": 685.98,
+                  "height": 88
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "他说：“……‘真的？——不！’”……现场一",
+                    "start": 0,
+                    "end": 21,
+                    "width": 685.98,
+                    "height": 44,
+                    "x": 641,
+                    "y": 888,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "片沉默，只有潮声在铁壁间回荡，久久不散。",
+                    "start": 21,
+                    "end": 41,
+                    "width": 680,
+                    "height": 44,
+                    "x": 641,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                  "expected": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 245,
+        "active": [
+          "g03"
+        ],
+        "blocks": [
+          {
+            "groupId": "g03",
+            "start": 8.4,
+            "end": 11.2,
+            "panel": {
+              "x": 402,
+              "y": 746,
+              "width": 1117,
+              "height": 244
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 462,
+                  "y": 760,
+                  "width": 1043.12,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "He said, “... ‘Really? — No!’ ”—and the room",
+                    "start": 0,
+                    "end": 45,
+                    "width": 1043.12,
+                    "height": 59,
+                    "x": 462,
+                    "y": 760,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "fell silent, save for the tide against the iron walls.",
+                    "start": 45,
+                    "end": 99,
+                    "width": 1035.46,
+                    "height": 59,
+                    "x": 462,
+                    "y": 819,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                  "expected": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 462,
+                  "y": 888,
+                  "width": 685.98,
+                  "height": 88
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "他说：“……‘真的？——不！’”……现场一",
+                    "start": 0,
+                    "end": 21,
+                    "width": 685.98,
+                    "height": 44,
+                    "x": 641,
+                    "y": 888,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "片沉默，只有潮声在铁壁间回荡，久久不散。",
+                    "start": 21,
+                    "end": 41,
+                    "width": 680,
+                    "height": 44,
+                    "x": 641,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                  "expected": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 279,
+        "active": [
+          "g03"
+        ],
+        "blocks": [
+          {
+            "groupId": "g03",
+            "start": 8.4,
+            "end": 11.2,
+            "panel": {
+              "x": 402,
+              "y": 746,
+              "width": 1117,
+              "height": 244
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 462,
+                  "y": 760,
+                  "width": 1043.12,
+                  "height": 118
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "He said, “... ‘Really? — No!’ ”—and the room",
+                    "start": 0,
+                    "end": 45,
+                    "width": 1043.12,
+                    "height": 59,
+                    "x": 462,
+                    "y": 760,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "fell silent, save for the tide against the iron walls.",
+                    "start": 45,
+                    "end": 99,
+                    "width": 1035.46,
+                    "height": 59,
+                    "x": 462,
+                    "y": 819,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+                  "expected": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 462,
+                  "y": 888,
+                  "width": 685.98,
+                  "height": 88
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "他说：“……‘真的？——不！’”……现场一",
+                    "start": 0,
+                    "end": 21,
+                    "width": 685.98,
+                    "height": 44,
+                    "x": 641,
+                    "y": 888,
+                    "over": 0
+                  },
+                  {
+                    "lineIndex": 1,
+                    "text": "片沉默，只有潮声在铁壁间回荡，久久不散。",
+                    "start": 21,
+                    "end": 41,
+                    "width": 680,
+                    "height": 44,
+                    "x": 641,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+                  "expected": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 285,
+        "active": [
+          "g04"
+        ],
+        "blocks": [
+          {
+            "groupId": "g04",
+            "start": 11.4,
+            "end": 13.4,
+            "panel": {
+              "x": 549,
+              "y": 849,
+              "width": 823,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 609,
+                  "y": 863,
+                  "width": 748.57,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 32,
+                    "width": 748.57,
+                    "height": 59,
+                    "x": 609,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 609,
+                  "y": 932,
+                  "width": 559.71,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 22,
+                    "width": 559.71,
+                    "height": 44,
+                    "x": 704,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 305,
+        "active": [
+          "g04",
+          "g05"
+        ],
+        "blocks": [
+          {
+            "groupId": "g04",
+            "start": 11.4,
+            "end": 13.4,
+            "panel": {
+              "x": 549,
+              "y": 696,
+              "width": 823,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 609,
+                  "y": 710,
+                  "width": 748.57,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 32,
+                    "width": 748.57,
+                    "height": 59,
+                    "x": 609,
+                    "y": 710,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 609,
+                  "y": 779,
+                  "width": 559.71,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 22,
+                    "width": 559.71,
+                    "height": 44,
+                    "x": 704,
+                    "y": 779,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          },
+          {
+            "groupId": "g05",
+            "start": 12.2,
+            "end": 14.2,
+            "panel": {
+              "x": 276,
+              "y": 849,
+              "width": 1368,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "Overlap segment B must stay paired with its own translation.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 336,
+                  "y": 863,
+                  "width": 1293.68,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "Overlap segment B must stay paired with its own translation.",
+                    "start": 0,
+                    "end": 60,
+                    "width": 1293.68,
+                    "height": 59,
+                    "x": 336,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "Overlap segment B must stay paired with its own translation.",
+                  "expected": "Overlap segment B must stay paired with its own translation."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "交叠片段乙必须与自己的译文保持配对。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 336,
+                  "y": 932,
+                  "width": 612,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "交叠片段乙必须与自己的译文保持配对。",
+                    "start": 0,
+                    "end": 18,
+                    "width": 612,
+                    "height": 44,
+                    "x": 677,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                  "expected": "交叠片段乙必须与自己的译文保持配对。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 310,
+        "active": [
+          "g04",
+          "g05"
+        ],
+        "blocks": [
+          {
+            "groupId": "g04",
+            "start": 11.4,
+            "end": 13.4,
+            "panel": {
+              "x": 549,
+              "y": 696,
+              "width": 823,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 609,
+                  "y": 710,
+                  "width": 748.57,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 32,
+                    "width": 748.57,
+                    "height": 59,
+                    "x": 609,
+                    "y": 710,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 609,
+                  "y": 779,
+                  "width": 559.71,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 22,
+                    "width": 559.71,
+                    "height": 44,
+                    "x": 704,
+                    "y": 779,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          },
+          {
+            "groupId": "g05",
+            "start": 12.2,
+            "end": 14.2,
+            "panel": {
+              "x": 276,
+              "y": 849,
+              "width": 1368,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "Overlap segment B must stay paired with its own translation.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 336,
+                  "y": 863,
+                  "width": 1293.68,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "Overlap segment B must stay paired with its own translation.",
+                    "start": 0,
+                    "end": 60,
+                    "width": 1293.68,
+                    "height": 59,
+                    "x": 336,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "Overlap segment B must stay paired with its own translation.",
+                  "expected": "Overlap segment B must stay paired with its own translation."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "交叠片段乙必须与自己的译文保持配对。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 336,
+                  "y": 932,
+                  "width": 612,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "交叠片段乙必须与自己的译文保持配对。",
+                    "start": 0,
+                    "end": 18,
+                    "width": 612,
+                    "height": 44,
+                    "x": 677,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                  "expected": "交叠片段乙必须与自己的译文保持配对。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 330,
+        "active": [
+          "g04",
+          "g05"
+        ],
+        "blocks": [
+          {
+            "groupId": "g04",
+            "start": 11.4,
+            "end": 13.4,
+            "panel": {
+              "x": 549,
+              "y": 696,
+              "width": 823,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 609,
+                  "y": 710,
+                  "width": 748.57,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 32,
+                    "width": 748.57,
+                    "height": 59,
+                    "x": 609,
+                    "y": 710,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 609,
+                  "y": 779,
+                  "width": 559.71,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 22,
+                    "width": 559.71,
+                    "height": 44,
+                    "x": 704,
+                    "y": 779,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          },
+          {
+            "groupId": "g05",
+            "start": 12.2,
+            "end": 14.2,
+            "panel": {
+              "x": 276,
+              "y": 849,
+              "width": 1368,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "Overlap segment B must stay paired with its own translation.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 336,
+                  "y": 863,
+                  "width": 1293.68,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "Overlap segment B must stay paired with its own translation.",
+                    "start": 0,
+                    "end": 60,
+                    "width": 1293.68,
+                    "height": 59,
+                    "x": 336,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "Overlap segment B must stay paired with its own translation.",
+                  "expected": "Overlap segment B must stay paired with its own translation."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "交叠片段乙必须与自己的译文保持配对。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 336,
+                  "y": 932,
+                  "width": 612,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "交叠片段乙必须与自己的译文保持配对。",
+                    "start": 0,
+                    "end": 18,
+                    "width": 612,
+                    "height": 44,
+                    "x": 677,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                  "expected": "交叠片段乙必须与自己的译文保持配对。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 334,
+        "active": [
+          "g04",
+          "g05"
+        ],
+        "blocks": [
+          {
+            "groupId": "g04",
+            "start": 11.4,
+            "end": 13.4,
+            "panel": {
+              "x": 549,
+              "y": 696,
+              "width": 823,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 609,
+                  "y": 710,
+                  "width": 748.57,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 32,
+                    "width": 748.57,
+                    "height": 59,
+                    "x": 609,
+                    "y": 710,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 609,
+                  "y": 779,
+                  "width": 559.71,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                    "start": 0,
+                    "end": 22,
+                    "width": 559.71,
+                    "height": 44,
+                    "x": 704,
+                    "y": 779,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+                  "expected": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          },
+          {
+            "groupId": "g05",
+            "start": 12.2,
+            "end": 14.2,
+            "panel": {
+              "x": 276,
+              "y": 849,
+              "width": 1368,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "Overlap segment B must stay paired with its own translation.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 336,
+                  "y": 863,
+                  "width": 1293.68,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "Overlap segment B must stay paired with its own translation.",
+                    "start": 0,
+                    "end": 60,
+                    "width": 1293.68,
+                    "height": 59,
+                    "x": 336,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "Overlap segment B must stay paired with its own translation.",
+                  "expected": "Overlap segment B must stay paired with its own translation."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "交叠片段乙必须与自己的译文保持配对。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 336,
+                  "y": 932,
+                  "width": 612,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "交叠片段乙必须与自己的译文保持配对。",
+                    "start": 0,
+                    "end": 18,
+                    "width": 612,
+                    "height": 44,
+                    "x": 677,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                  "expected": "交叠片段乙必须与自己的译文保持配对。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      },
+      {
+        "frame": 354,
+        "active": [
+          "g05"
+        ],
+        "blocks": [
+          {
+            "groupId": "g05",
+            "start": 12.2,
+            "end": 14.2,
+            "panel": {
+              "x": 276,
+              "y": 849,
+              "width": 1368,
+              "height": 141
+            },
+            "roles": [
+              {
+                "role": "original",
+                "text": "Overlap segment B must stay paired with its own translation.",
+                "fontSize": 46,
+                "lineHeightPx": 59,
+                "roleBox": {
+                  "x": 336,
+                  "y": 863,
+                  "width": 1293.68,
+                  "height": 59
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "Overlap segment B must stay paired with its own translation.",
+                    "start": 0,
+                    "end": 60,
+                    "width": 1293.68,
+                    "height": 59,
+                    "x": 336,
+                    "y": 863,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "Overlap segment B must stay paired with its own translation.",
+                  "expected": "Overlap segment B must stay paired with its own translation."
+                },
+                "boundaryViolations": [],
+                "issues": []
+              },
+              {
+                "role": "translation",
+                "text": "交叠片段乙必须与自己的译文保持配对。",
+                "fontSize": 34,
+                "lineHeightPx": 44,
+                "roleBox": {
+                  "x": 336,
+                  "y": 932,
+                  "width": 612,
+                  "height": 44
+                },
+                "lines": [
+                  {
+                    "lineIndex": 0,
+                    "text": "交叠片段乙必须与自己的译文保持配对。",
+                    "start": 0,
+                    "end": 18,
+                    "width": 612,
+                    "height": 44,
+                    "x": 677,
+                    "y": 932,
+                    "over": 0
+                  }
+                ],
+                "integrity": {
+                  "ok": true,
+                  "reassembled": "交叠片段乙必须与自己的译文保持配对。",
+                  "expected": "交叠片段乙必须与自己的译文保持配对。"
+                },
+                "boundaryViolations": [],
+                "issues": []
+              }
+            ]
+          }
+        ],
+        "violations": [],
+        "missingBindings": []
+      }
+    ],
+    "allowedBounds": {
+      "x": 0,
+      "y": 0,
+      "width": 1920,
+      "height": 1080
+    }
+  }
+}

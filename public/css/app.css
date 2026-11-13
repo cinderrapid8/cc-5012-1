@@ -1,0 +1,140 @@
+@font-face { font-family: "Bench SC"; src: url("/assets/fonts/NotoSansSC-VF.ttf"); font-display: block; }
+@font-face { font-family: "Bench Sans"; src: url("/assets/fonts/NotoSans-VF.ttf"); font-display: block; }
+@font-face { font-family: "Bench Emoji"; src: url("/assets/fonts/NotoColorEmoji.ttf"); font-display: block; }
+:root {
+  --bg: #0b0f14;
+  --panel: #11161d;
+  --panel-2: #0e1319;
+  --line: #232c38;
+  --text: #e8eef7;
+  --muted: #8fa0b4;
+  --accent: #ffb454;
+  --accent-2: #6fd3ff;
+  --good: #6ee7a8;
+  --warn: #ffd166;
+  --bad: #ff7b7b;
+  --mono: ui-monospace, "Bench Sans", "Bench SC", "Bench Emoji", SFMono-Regular, Menlo, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 14px/1.45 "Bench SC", "Bench Sans", "Bench Emoji", system-ui, sans-serif; }
+body { display: flex; flex-direction: column; overflow: hidden; }
+
+.topbar { display: flex; align-items: center; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: #0d1218; flex: 0 0 auto; }
+.brand { display: flex; align-items: baseline; gap: 12px; min-width: 0; }
+.brand strong { font-size: 16px; letter-spacing: .02em; }
+.brand .muted { font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 32vw; }
+.source-badge { font-size: 12px; color: var(--good); border: 1px solid rgba(110,231,168,.35); background: rgba(110,231,168,.08); padding: 4px 8px; border-radius: 6px; white-space: nowrap; }
+.actions { margin-left: auto; display: flex; gap: 8px; }
+.btn { appearance: none; border: 1px solid var(--line); background: #18202a; color: var(--text); padding: 7px 12px; border-radius: 7px; font: inherit; cursor: pointer; }
+.btn:hover { border-color: #3a4654; background: #1c2531; }
+.btn.primary { background: #22304a; border-color: #34507f; }
+.btn.accent { background: #3a2a17; border-color: #7a5726; color: #ffd9a1; }
+.btn.subtle { background: #131922; color: var(--muted); }
+.btn.small { padding: 4px 9px; font-size: 12px; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.workbench { display: grid; grid-template-columns: minmax(230px, 17vw) minmax(0, 1fr) minmax(320px, 25vw); flex: 1 1 auto; min-height: 0; }
+.panel { background: var(--panel); overflow-y: auto; border-right: 1px solid var(--line); }
+.panel.right { border-right: none; border-left: 1px solid var(--line); background: var(--panel-2); }
+.section { padding: 14px 14px 16px; border-bottom: 1px solid var(--line); }
+.section h2 { margin: 0 0 10px; font-size: 13px; letter-spacing: .06em; color: var(--muted); font-weight: 600; }
+
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 5px 10px; font-size: 12px; margin-bottom: 10px; }
+.kv .k { color: var(--muted); }
+.kv .v { font-family: var(--mono); overflow-wrap: anywhere; }
+
+.source-list { display: flex; flex-direction: column; gap: 6px; }
+.source-item { border: 1px solid var(--line); background: #0c1117; border-radius: 7px; padding: 8px 9px; font-size: 12px; cursor: default; }
+.source-item .sid { font-family: var(--mono); color: var(--accent); font-size: 11px; }
+.source-item .sline { color: #c3cfdd; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.source-item .sline.tr { color: #9fd7ea; }
+.source-item.locked { border-left: 3px solid #3d4a5a; }
+.lock-tag { color: var(--muted); font-size: 10px; font-family: var(--mono); }
+
+.project-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.project-item { border: 1px solid var(--line); background: #0c1117; padding: 7px 9px; border-radius: 7px; cursor: pointer; font-size: 12px; }
+.project-item.active { border-color: #6a4c22; background: #16120b; }
+.project-item .pname { color: var(--text); }
+.project-item .pmeta { color: var(--muted); font-family: var(--mono); font-size: 11px; margin-top: 2px; }
+.muted { color: var(--muted); }
+.small { font-size: 11px; }
+.mono { font-family: var(--mono); }
+
+.font-list { display: flex; flex-direction: column; gap: 7px; }
+.font-item { border: 1px solid var(--line); border-radius: 7px; padding: 7px 9px; font-size: 12px; background: #0c1117; }
+.font-item.missing { border-color: #6a3030; background: #180e0e; }
+.font-item .fname { display: flex; justify-content: space-between; gap: 8px; }
+.font-item .fstatus { font-family: var(--mono); font-size: 11px; }
+.font-item .fdetail { color: var(--muted); font-size: 11px; margin-top: 3px; overflow-wrap: anywhere; }
+.font-item .fbadge { padding: 1px 6px; border-radius: 4px; border: 1px solid currentColor; font-size: 10px; }
+
+.stage-wrap { display: flex; flex-direction: column; min-width: 0; background: radial-gradient(circle at 50% 0%, #141b24, #0a0e13 70%); }
+.stage-toolbar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--line); background: #0c1117; font-size: 12px; flex: 0 0 auto; }
+.toolbar-group { display: flex; align-items: center; gap: 8px; }
+#scrub { width: min(30vw, 380px); accent-color: var(--accent); }
+.toggle { display: inline-flex; gap: 5px; align-items: center; color: var(--muted); }
+.zoom { margin-left: auto; }
+#zoom { width: 120px; accent-color: var(--accent-2); }
+.stage-scroll { flex: 1 1 auto; overflow: auto; display: flex; }
+.stage-shell { position: relative; margin: auto; flex: 0 0 auto; }
+#video { display: block; background: #000; }
+#overlay { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.stage-shell.zoomed { transform-origin: top left; }
+
+.stage-foot { display: flex; gap: 16px; align-items: center; padding: 7px 14px; border-top: 1px solid var(--line); background: #0c1117; font-size: 12px; min-height: 32px; flex: 0 0 auto; }
+.status { font-family: "Bench SC", "Bench Sans", var(--mono); }
+.status.warn { color: var(--warn); }
+.status.bad { color: var(--bad); }
+.status.good { color: var(--good); }
+
+.group-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.gtab { border: 1px solid var(--line); background: #101720; color: var(--muted); padding: 5px 9px; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: var(--mono); }
+.gtab.active { border-color: #7a5726; color: var(--accent); background: #171207; }
+.gtab .ov { color: var(--accent-2); margin-left: 5px; font-size: 10px; }
+
+.editor { display: flex; flex-direction: column; gap: 10px; }
+.editor-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.editor-head h2 { margin: 0; }
+.editor label.field { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.editor textarea { width: 100%; min-height: 74px; resize: vertical; background: #0a0f15; color: var(--text); border: 1px solid var(--line); border-radius: 7px; padding: 8px 9px; font: 13px/1.4 "Bench SC", "Bench Sans", "Bench Emoji", sans-serif; }
+.editor textarea.orig { border-left: 3px solid var(--accent); }
+.editor textarea.trans { border-left: 3px solid var(--accent-2); }
+.row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.editor input[type=number], .editor input[type=text] { width: 100%; background: #0a0f15; color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; font: 12px/1.35 var(--mono); }
+.editor input[type=range] { width: 100%; accent-color: var(--accent); }
+.hint { font-size: 11px; color: var(--muted); }
+.origin-note { font-size: 11px; color: #8a9aab; border-left: 2px solid var(--line); padding-left: 7px; overflow-wrap: anywhere; }
+.block-title { font-size: 12px; color: var(--muted); letter-spacing: .06em; margin-top: 4px; }
+
+.diagnostics { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+.diag { border: 1px solid var(--line); border-radius: 7px; padding: 8px 9px; background: #0c1117; }
+.diag.error { border-color: #67351f; }
+.diag.warn { border-color: #6a5a26; }
+.diag.good { border-color: #265c42; }
+.diag .dtitle { display: flex; justify-content: space-between; gap: 8px; color: var(--text); }
+.diag .dmeta { color: var(--muted); font-family: var(--mono); font-size: 11px; margin-top: 3px; overflow-wrap: anywhere; }
+.diag .sugg { margin: 7px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.sugg button { text-align: left; width: 100%; appearance: none; border: 1px solid #2c3a4b; background: #111a24; color: #b9cbe0; border-radius: 5px; padding: 5px 7px; font-family: inherit; font-size: 11px; line-height: 1.35; cursor: pointer; }
+.sugg button:hover { border-color: #48617e; color: #dbe9fa; }
+.sugg button:disabled { opacity: .45; cursor: default; }
+.lines-table { width: 100%; border-collapse: collapse; font-size: 11px; margin-top: 6px; }
+.lines-table td { padding: 3px 5px; border-top: 1px solid var(--line); vertical-align: top; }
+.lines-table td.t { font: 12px/1.35 "Bench SC", "Bench Sans", "Bench Emoji", sans-serif; color: #e4eefb; }
+.lines-table td.w { font-family: var(--mono); color: var(--muted); white-space: nowrap; text-align: right; }
+.lines-table td.w.over { color: var(--bad); }
+
+.render-list { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
+.render-item { border: 1px solid var(--line); border-radius: 7px; padding: 8px 9px; background: #0c1117; }
+.render-item .rtitle { display: flex; justify-content: space-between; gap: 8px; }
+.render-item a { color: var(--accent-2); }
+.render-item .rmeta { color: var(--muted); font-size: 11px; font-family: var(--mono); margin-top: 3px; overflow-wrap: anywhere; }
+
+dialog { border: 1px solid var(--line); border-radius: 10px; background: #121820; color: var(--text); max-width: 440px; }
+.dialog-body { margin: 0; padding: 18px; }
+.dialog-body h3 { margin: 0 0 8px; font-size: 15px; }
+.dialog-body p { color: var(--muted); font-size: 13px; }
+.dialog-body menu { display: flex; justify-content: flex-end; gap: 8px; margin: 14px 0 0; padding: 0; }
+.toast { position: fixed; right: 18px; bottom: 18px; background: #16202b; border: 1px solid var(--line); border-radius: 8px; padding: 10px 13px; font-size: 12px; max-width: 380px; box-shadow: 0 8px 30px rgba(0,0,0,.4); z-index: 10; }
+.toast.bad { border-color: #6a3030; color: #ffb3b3; }
+.toast.good { border-color: #265c42; color: #b8f5d2; }

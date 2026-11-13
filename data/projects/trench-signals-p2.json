@@ -1,0 +1,264 @@
+{
+  "schemaVersion": 1,
+  "projectId": "trench-signals-p2",
+  "name": "Trench Signals — Bilingual Subtitle Bench · 人工调整版 #2",
+  "sourceId": "trench-signals",
+  "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+  "sourceSnapshotAt": "2026-11-13T21:42:29.791Z",
+  "revision": 1,
+  "createdAt": "2026-11-13T21:42:29.791Z",
+  "updatedAt": "2026-11-13T22:35:25.956Z",
+  "settings": {
+    "fonts": {
+      "requestedStack": [
+        "Documentary Serif",
+        "Documentary Sans SC",
+        "Documentary Sans",
+        "Documentary Emoji"
+      ],
+      "declared": [
+        {
+          "family": "Documentary Serif",
+          "file": "assets/fonts/DocumentarySerif-Regular.ttf",
+          "note": "项目要求的衬线字体，当前交付包未包含此文件"
+        },
+        {
+          "family": "Documentary Sans SC",
+          "file": "assets/fonts/NotoSansSC-VF.ttf"
+        },
+        {
+          "family": "Documentary Sans",
+          "file": "assets/fonts/NotoSans-VF.ttf"
+        },
+        {
+          "family": "Documentary Emoji",
+          "file": "assets/fonts/NotoColorEmoji.ttf"
+        }
+      ]
+    },
+    "original": {
+      "fontSize": 46,
+      "fontWeight": 400,
+      "maxLines": 2,
+      "color": "#ffd86b",
+      "tracking": 0
+    },
+    "translation": {
+      "fontSize": 34,
+      "fontWeight": 400,
+      "maxLines": 2,
+      "color": "#7ef0a8",
+      "tracking": 0
+    },
+    "safeMarginPx": 90,
+    "maxTextWidthPx": 1360,
+    "lineHeight": 1.28,
+    "panelPadding": 14,
+    "roleGap": 10,
+    "blockGap": 12,
+    "panelAlpha": 0.62,
+    "emergencyBreak": false
+  },
+  "groups": [
+    {
+      "id": "g01",
+      "source": {
+        "original": "The crew lowered a hydrophone into the trench, where a single call—",
+        "translation": "船员把水听器放入海沟，那里只传来一声呼唤——",
+        "start": 1,
+        "end": 4
+      },
+      "edit": {
+        "original": "The crew lowered a hydrophone into the trench, where a single call—",
+        "translation": "船员把水听器放入海沟，那里只传来一声呼唤——",
+        "start": 1,
+        "end": 4,
+        "originalOverride": null,
+        "translationOverride": null
+      }
+    },
+    {
+      "id": "g02",
+      "source": {
+        "original": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+        "translation": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+        "start": 4.6,
+        "end": 8.2
+      },
+      "edit": {
+        "original": "A single diagnosis — pneumonoultramicroscopicsilicovolcanoconiosis — was treated as impossible out there.",
+        "translation": "在那里，仅仅一个“尘肺病”的诊断都被视为不可能。",
+        "start": 4.6,
+        "end": 8.2,
+        "originalOverride": null,
+        "translationOverride": null
+      }
+    },
+    {
+      "id": "g03",
+      "source": {
+        "original": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+        "translation": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+        "start": 8.4,
+        "end": 11.2
+      },
+      "edit": {
+        "original": "He said, “... ‘Really? — No!’ ”—and the room fell silent, save for the tide against the iron walls.",
+        "translation": "他说：“……‘真的？——不！’”……现场一片沉默，只有潮声在铁壁间回荡，久久不散。",
+        "start": 8.4,
+        "end": 11.2,
+        "originalOverride": null,
+        "translationOverride": null
+      }
+    },
+    {
+      "id": "g04",
+      "source": {
+        "original": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+        "translation": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+        "start": 11.4,
+        "end": 13.4
+      },
+      "edit": {
+        "original": "IPA [kʰãˈnɐ] and crew badges: 🧑🏽‍🚀👩🏽‍💻",
+        "translation": "国际音标 [kʰãˈnɐ] 与乘组徽章：🧑🏽‍🚀👩🏽‍💻",
+        "start": 11.4,
+        "end": 13.4,
+        "originalOverride": null,
+        "translationOverride": null
+      }
+    },
+    {
+      "id": "g05",
+      "source": {
+        "original": "Overlap segment B must stay paired with its own translation.",
+        "translation": "交叠片段乙必须与自己的译文保持配对。",
+        "start": 12.2,
+        "end": 14.2
+      },
+      "edit": {
+        "original": "Overlap segment B must stay paired with its own translation.",
+        "translation": "交叠片段乙必须与自己的译文保持配对。",
+        "start": 12.2,
+        "end": 14.2,
+        "originalOverride": null,
+        "translationOverride": null
+      }
+    }
+  ],
+  "audit": [
+    {
+      "at": "2026-11-13T21:42:29.791Z",
+      "actor": "editor",
+      "action": "create-project",
+      "detail": {
+        "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+        "groups": 5
+      }
+    }
+  ],
+  "renders": [
+    {
+      "mode": "burn",
+      "output": "trench-signals-p2-burn-1794606157119.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-burn-1794606157119.mp4",
+      "outputUrl": "/renders/trench-signals-p2-burn-1794606157119.mp4",
+      "bytes": 1395660,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T21:42:40.658Z",
+      "actor": "editor",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794606157119",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794606157119/manifest.json",
+      "issueCount": 2
+    },
+    {
+      "mode": "preview-mask",
+      "output": "trench-signals-p2-mask-1794606191512.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-mask-1794606191512.mp4",
+      "outputUrl": "/renders/trench-signals-p2-mask-1794606191512.mp4",
+      "bytes": 1412292,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T21:43:14.846Z",
+      "actor": "editor",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794606191512",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794606191512/manifest.json",
+      "issueCount": 2
+    },
+    {
+      "mode": "burn",
+      "output": "trench-signals-p2-burn-1794607593465.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-burn-1794607593465.mp4",
+      "outputUrl": "/renders/trench-signals-p2-burn-1794607593465.mp4",
+      "bytes": 1395660,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T22:06:36.721Z",
+      "actor": "cli",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794607593465",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794607593465/manifest.json",
+      "issueCount": 2
+    },
+    {
+      "mode": "burn",
+      "output": "trench-signals-p2-burn-1794608349624.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-burn-1794608349624.mp4",
+      "outputUrl": "/renders/trench-signals-p2-burn-1794608349624.mp4",
+      "bytes": 1397084,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T22:19:13.651Z",
+      "actor": "cli",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794608349624",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-burn-1794608349624/manifest.json",
+      "issueCount": 2
+    },
+    {
+      "mode": "preview-mask",
+      "output": "trench-signals-p2-mask-1794609235923.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-mask-1794609235923.mp4",
+      "outputUrl": "/renders/trench-signals-p2-mask-1794609235923.mp4",
+      "bytes": 1407989,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T22:34:00.160Z",
+      "actor": "cli",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794609235923",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794609235923/manifest.json",
+      "issueCount": 2
+    },
+    {
+      "mode": "preview-mask",
+      "output": "trench-signals-p2-mask-1794609322204.mp4",
+      "outputPath": "/workspace/renders/trench-signals-p2-mask-1794609322204.mp4",
+      "outputUrl": "/renders/trench-signals-p2-mask-1794609322204.mp4",
+      "bytes": 1420369,
+      "fps": 25,
+      "totalFrames": 375,
+      "duration": 15,
+      "generatedAt": "2026-11-13T22:35:25.955Z",
+      "actor": "cli",
+      "projectRevision": 1,
+      "sourceHash": "8fc31cfc7300b37278fefd86e8f302d039e496779931d3689b2c22be944a2c67",
+      "sheetDir": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794609322204",
+      "manifest": "data/projects/trench-signals-p2/sheets/trench-signals-p2-mask-1794609322204/manifest.json",
+      "issueCount": 2
+    }
+  ]
+}
