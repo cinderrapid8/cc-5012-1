@@ -127,6 +127,7 @@ function createProject({ sourceId, name, actor, forceNew }) {
       end: group.end,
       originalOverride: null,
       translationOverride: null,
+      boxWidthPx: null,
     },
   }));
   const project = {
@@ -177,6 +178,9 @@ function updateProject(projectId, incoming, { actor, expectedRevision } = {}) {
       end: Number.isFinite(patch.edit?.end) ? patch.edit.end : group.edit.end,
       originalOverride: typeof patch.edit?.originalOverride === 'string' ? patch.edit.originalOverride : group.edit.originalOverride,
       translationOverride: typeof patch.edit?.translationOverride === 'string' ? patch.edit.translationOverride : group.edit.translationOverride,
+      boxWidthPx: Number.isFinite(patch.edit?.boxWidthPx) && patch.edit.boxWidthPx > 0
+        ? Math.round(patch.edit.boxWidthPx)
+        : (Number.isFinite(group.edit?.boxWidthPx) ? group.edit.boxWidthPx : null),
     };
     if (JSON.stringify(edit) !== JSON.stringify(group.edit)) {
       diff.push({ groupId: group.id, before: group.edit, after: edit });

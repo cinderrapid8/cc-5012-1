@@ -56,6 +56,46 @@ function startServer() {
   });
 }
 
+// Runs the same trace cases the CLI uses, then replays them in the same page and
+// compares the digest chain. This proves the replay evidence is identical, not
+// merely that the tool produced output once.
+async function runTraceCases(page, project, cases) {
+  return page.evaluate(async (input) => {
+    const Engine = await import('/public/js/layout-engine.js');
+    const Diagnostics = await import('/public/js/break-diagnostics.js');
+    const run = (groups, settings, coverage) => {
+      const trace = {
+        revision: input.revision,
+        languages: input.languages,
+        coverage,
+      };
+      const layout = Engine.buildLayout({
+        activeGroups: groups.map((group) => ({ ...group, start: 0, end: 1 })),
+        settings,
+        canvas: { width: 1920, height: 1080 },
+        trace,
+      });
+      const diagnostics = Diagnostics.diagnoseTrace(layout.trace);
+      return {
+        digest: layout.trace.digest,
+        schema: layout.trace.schema,
+        roles: layout.trace.roles.map((role) => ({ groupId: role.groupId, role: role.role, digest: role.digest })),
+        completeness: diagnostics.completeness,
+        causes: diagnostics.attributions.filter((item) => item.cause !== 'fit').map((item) => ({ cause: item.cause, stage: item.stage, scope: item.scope })),
+      };
+    };
+    return input.cases.map((testCase) => {
+      const first = run(testCase.groups, testCase.settings, testCase.coverage);
+      const second = run(testCase.groups, testCase.settings, testCase.coverage);
+      return {
+        id: testCase.id,
+        first,
+        same: first.digest === second.digest && JSON.stringify(first.roles) === JSON.stringify(second.roles),
+      };
+    });
+  }, { revision: project.revision, languages: { original: 'en', translation: 'zh-Hans' }, cases });
+}
+
 async function loadRenderPage(settings) {
   const page = await browser.newPage({ viewport: { width: 1920, height: 1080 } });
   await page.goto(`http://127.0.0.1:${PORT}/render.html`, { waitUntil: 'load' });
@@ -187,6 +227,49 @@ async function loadRenderPage(settings) {
   check('overlapping timing yields a shared active segment', segments.some((segment) => segment.cueIds.join('|') === 'a|b'));
 
   // --- real burned render and frame audit ----------------------------------
+  // --- break-decision trace: counterexamples plus replay ---------------------
+  const tracePage = await loadRenderPage(project.settings);
+  const traceCases = require('./break-trace-cases');
+  const traceInputs = traceCases.all()
+    .filter((testCase) => testCase.id !== 'old-samples')
+    .map((testCase) => {
+      const overrides = testCase.settings || {};
+      const settings = {
+        ...project.settings,
+        ...overrides,
+        original: { ...project.settings.original, ...(overrides.original || {}) },
+        translation: { ...project.settings.translation, ...(overrides.translation || {}) },
+      };
+      const groups = testCase.groups.map((group) => ({ ...group, boxWidthPx: group.boxWidthPx ?? testCase.boxWidthPx }));
+      const texts = groups.flatMap((group) => [group.original, group.translation]);
+      return { id: testCase.id, settings, groups, coverage: traceCases.coverageFor(settings, texts), expect: testCase.asserts || [] };
+    });
+  const traced = await runTraceCases(tracePage, project, traceInputs);
+  check('every trace case records all eight stages', traced.every((item) => item.first.completeness.ok), JSON.stringify(traced.filter((item) => !item.first.completeness.ok).map((item) => item.id)));
+  check('every trace case replays to an identical digest chain', traced.every((item) => item.same), JSON.stringify(traced.filter((item) => !item.same).map((item) => item.id)));
+  const causesOf = (id, role) => traced.find((item) => item.id === id)?.first.causes.filter((cause) => cause.scope.role === role) || [];
+  check('font fallback is attributed to the shaping stage', causesOf('font-fallback', 'original').some((cause) => cause.cause === 'font-fallback-width' && cause.stage === 'shape'));
+  check('a dragged narrow box is attributed to the mount stage', causesOf('narrow-box', 'original').some((cause) => cause.cause === 'box-width-is-binding' && cause.stage === 'mount'));
+  check('an unbreakable token is attributed to the candidates stage', causesOf('unbreakable', 'original').some((cause) => cause.cause === 'unbreakable-token' && cause.stage === 'candidates'));
+
+  check('precomposed and decomposed glyphs both fit without a shape fault',
+    traced.find((item) => item.id === 'combining-marks')?.first.causes.every((cause) => cause.cause !== 'shape-marks-split') === true);
+  await tracePage.close();
+
+  // old bilingual project runs to completion under the tracer
+  const oldPage = await loadRenderPage(project.settings);
+  const oldCase = traceCases.oldSampleCase();
+  const oldCoverage = traceCases.coverageFor(project.settings, oldCase.groups.flatMap((group) => [group.original, group.translation]));
+  const oldTrace = await runTraceCases(oldPage, project, [{ id: 'old-samples', groups: oldCase.groups, settings: project.settings, coverage: oldCoverage }]);
+  check('the shipped bilingual project runs to completion under the tracer',
+    oldTrace[0].first.completeness.ok && oldTrace[0].first.roles.length === project.groups.length * 2,
+    JSON.stringify(oldTrace[0].first.completeness.problems));
+  check('the shipped bilingual project replays identically', oldTrace[0].same);
+  check('the shipped sample attributes overflow without blaming a default safe width',
+    !oldTrace[0].first.causes.some((cause) => cause.cause === 'box-width-is-binding'),
+    JSON.stringify(oldTrace[0].first.causes.map((cause) => `${cause.cause}@${cause.stage}`)));
+  await oldPage.close();
+
   const rendered = await api(`/api/projects/${project.projectId}/render`, {
     method: 'POST',
     body: { mode: 'burn', actor: 'selftest' },
@@ -211,6 +294,19 @@ async function loadRenderPage(settings) {
   check('no original/translation binding mismatch at audited frames', auditFrames.every((frame) => frame.missingBindings.length === 0));
   const g02Sheet = manifest.sheets.find((sheet) => sheet.cueIds.join('|') === 'g02');
   check('long word occupies one unbroken measured line', g02Sheet && g02Sheet.blocks[0].roles[0].lines.some((line) => line.text.includes('pneumonoultramicroscopicsilicovolcanoconiosis')));
+  check('render manifest binds every sheet trace to the project revision',
+    manifest.sheets.every((sheet) => sheet.trace && sheet.trace.revision === manifest.revision && sheet.trace.digest),
+    JSON.stringify(manifest.sheets.map((sheet) => sheet.trace?.revision)));
+  check('render manifest carries break diagnostics per sheet',
+    manifest.sheets.every((sheet) => sheet.diagnostics && sheet.diagnostics.version && sheet.diagnostics.completeness?.ok),
+    JSON.stringify(manifest.sheets.map((sheet) => sheet.diagnostics?.completeness?.problems || null)));
+  const g02Causes = g02Sheet?.diagnostics?.causes || [];
+  check('render manifest attributes every g02 cause to a real stage',
+    g02Causes.length > 0 && g02Causes.every((cause) => cause.stage && cause.phase),
+    JSON.stringify(g02Causes.map((cause) => `${cause.cause}@${cause.stage}`)));
+  check('render manifest never blames the box when no explicit box width was set',
+    g02Causes.every((cause) => cause.cause !== 'box-width-is-binding'),
+    JSON.stringify(g02Causes.map((cause) => cause.cause)));
 
   // pixel-level: subtitle colors exist only inside cues and stay inside safe area
   const frameTimes = [

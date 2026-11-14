@@ -54,14 +54,21 @@ window.RenderPage = {
     return Engine.layoutSummary(Engine.buildLayout({ activeGroups: payload.activeGroups, settings, canvas }));
   },
   async render(payload) {
+    const trace = payload.trace ? { ...payload.trace } : null;
     const layout = Engine.buildLayout({
       activeGroups: payload.activeGroups,
       settings,
       canvas,
+      trace,
     });
     const lines = paint(layout, { guides: Boolean(payload.guides), review: payload.review, showTags: Boolean(payload.showTags) });
     const summary = Engine.layoutSummary(layout);
-    return { layout: { ...summary, domLines: lines } };
+    let diagnostics = null;
+    if (layout.trace) {
+      const D = await import('/public/js/break-diagnostics.js');
+      diagnostics = D.diagnoseTrace(layout.trace);
+    }
+    return { layout: { ...summary, domLines: lines }, diagnostics };
   },
   linesFor() {
     return domLines();

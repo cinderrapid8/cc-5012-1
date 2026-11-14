@@ -12,7 +12,8 @@
     "render": "node scripts/render-cli.js",
     "test": "node scripts/selftest.js",
     "test:ui": "node scripts/ui-check.js",
-    "verify": "node scripts/verify-output.js"
+    "verify": "node scripts/verify-output.js",
+    "trace": "node scripts/break-trace.js"
   },
   "repository": {
     "type": "git",

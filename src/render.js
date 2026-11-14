@@ -5,6 +5,7 @@ const { launchBrowser } = require('./browser');
 const store = require('./project-store');
 const { buildActiveSegments, frameForTime } = require('./timecode');
 const { platformFontsFor } = require('./font-audit');
+const { fontCoverageReport } = require('./font-coverage');
 
 function ffmpegPath() {
   const local = path.resolve(__dirname, '../vendor/ffmpeg');
@@ -95,13 +96,19 @@ async function renderProject({ projectId, baseUrl, mode = 'burn', actor, fps: re
         .filter((group) => segment.cueIds.includes(group.id))
         .map((group) => ({ id: group.id, original: group.edit.original, translation: group.edit.translation, start: group.edit.start, end: group.edit.end }));
       const review = mode === 'preview-mask' ? { frame: segment.startFrame, fps } : null;
-      const layout = await page.evaluate(async (payload) => window.RenderPage.render(payload), { activeGroups, review });
+      const coverageReport = fontCoverageReport(project.settings, activeGroups.map((group) => `${group.original}\n${group.translation}`).join('\n'));
+      const trace = {
+        revision: project.revision,
+        languages: source.data.languages,
+        coverage: { byGlyph: coverageReport.byGlyph || {}, families: coverageReport.families || [] },
+      };
+      const layout = await page.evaluate(async (payload) => window.RenderPage.render(payload), { activeGroups, review, trace });
       const fonts = await platformFontsFor(page, '[data-line]');
       fontAudit.push({ startFrame: segment.startFrame, cueIds: segment.cueIds, lines: fonts });
       const png = await page.screenshot({ type: 'png', omitBackground: true, clip: { x: 0, y: 0, width: 1920, height: 1080 } });
       const pngFile = path.join(workDir, `sheet-${String(segment.startFrame).padStart(6, '0')}.png`);
       fs.writeFileSync(pngFile, png);
-      sheets.push({ segment, pngFile, layout: layout.layout });
+      sheets.push({ segment, pngFile, layout: layout.layout, trace: layout.layout?.trace || null, diagnostics: layout.diagnostics || null });
     }
 
     const auditFrames = collectAuditFrames(project, fps, totalFrames);
@@ -141,12 +148,14 @@ async function renderProject({ projectId, baseUrl, mode = 'burn', actor, fps: re
       actor: actor || 'editor',
       fontStatus,
       fontAudit,
-      sheets: sheets.map(({ segment, pngFile, layout }) => ({
+      sheets: sheets.map(({ segment, pngFile, layout, trace, diagnostics }) => ({
         file: path.basename(pngFile),
         startFrame: segment.startFrame,
         endFrame: segment.endFrame,
         timecode: `${(segment.startFrame / fps).toFixed(3)}s`,
         cueIds: segment.cueIds,
+        trace: trace ? { digest: trace.digest, schema: trace.schema, revision: trace.revision, languages: trace.languages } : null,
+        diagnostics: diagnostics ? { version: diagnostics.version, completeness: diagnostics.completeness, bindings: diagnostics.bindings, causes: (diagnostics.attributions || []).filter((item) => item.cause !== 'fit').map((item) => ({ cause: item.cause, stage: item.stage, phase: item.phase, scope: item.scope, line: item.line })), languageGaps: diagnostics.languageGaps } : null,
         blocks: layout.blocks.map((block) => ({
           groupId: block.groupId,
           panel: block.panel,

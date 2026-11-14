@@ -65,6 +65,7 @@ function fontCoverageReport(settings, text = '') {
   }
   const resolved = [];
   const unresolved = new Set();
+  const byGlyph = {};
   if (text) {
     for (const grapheme of graphemesOf(text)) {
       if (/^\s$/u.test(grapheme)) continue;
@@ -79,6 +80,14 @@ function fontCoverageReport(settings, text = '') {
         picked = { family: '（系统回退）', file: null };
         unresolved.add(grapheme);
       }
+      if (!byGlyph[grapheme]) {
+        byGlyph[grapheme] = {
+          family: picked.family,
+          file: picked.file,
+          fallback: !picked.file,
+          missing: !picked.file,
+        };
+      }
       const last = resolved[resolved.length - 1];
       if (last && last.family === picked.family) last.text += grapheme;
       else resolved.push({ ...picked, text: grapheme });
@@ -91,6 +100,7 @@ function fontCoverageReport(settings, text = '') {
     missingRequirements,
     resolved: text ? resolved : null,
     unresolved: text ? [...unresolved] : null,
+    byGlyph: text ? byGlyph : null,
     source: 'opentype.js cmap coverage in declared stack order (pre-render approximation)',
   };
 }

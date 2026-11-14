@@ -1,5 +1,5 @@
 {
-  "passed": 58,
+  "passed": 71,
   "failed": 0,
   "results": [
     {
@@ -136,6 +136,46 @@
       "pass": true
     },
     {
+      "name": "every trace case records all eight stages",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "every trace case replays to an identical digest chain",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "font fallback is attributed to the shaping stage",
+      "pass": true
+    },
+    {
+      "name": "a dragged narrow box is attributed to the mount stage",
+      "pass": true
+    },
+    {
+      "name": "an unbreakable token is attributed to the candidates stage",
+      "pass": true
+    },
+    {
+      "name": "precomposed and decomposed glyphs both fit without a shape fault",
+      "pass": true
+    },
+    {
+      "name": "the shipped bilingual project runs to completion under the tracer",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "the shipped bilingual project replays identically",
+      "pass": true
+    },
+    {
+      "name": "the shipped sample attributes overflow without blaming a default safe width",
+      "pass": true,
+      "detail": "[\"max-lines-binding@solve\",\"max-lines-binding@solve\",\"max-lines-binding@solve\"]"
+    },
+    {
       "name": "render produced an mp4",
       "pass": true
     },
@@ -174,6 +214,26 @@
     {
       "name": "long word occupies one unbroken measured line",
       "pass": true
+    },
+    {
+      "name": "render manifest binds every sheet trace to the project revision",
+      "pass": true,
+      "detail": "[2,2,2,2,2,2]"
+    },
+    {
+      "name": "render manifest carries break diagnostics per sheet",
+      "pass": true,
+      "detail": "[[],[],[],[],[],[]]"
+    },
+    {
+      "name": "render manifest attributes every g02 cause to a real stage",
+      "pass": true,
+      "detail": "[\"max-lines-binding@solve\",\"max-lines-binding@solve\",\"max-lines-binding@solve\"]"
+    },
+    {
+      "name": "render manifest never blames the box when no explicit box width was set",
+      "pass": true,
+      "detail": "[\"max-lines-binding\",\"max-lines-binding\",\"max-lines-binding\"]"
     },
     {
       "name": "frame 0.5s subtitle presence matches the cue schedule",

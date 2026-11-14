@@ -1,9 +1,23 @@
 // Shared layout engine. Runs in the browser preview and in the headless
 // export page, so preview geometry and burned geometry cannot diverge.
 
+import { TRACE_SCHEMA, hashText, finalizeTrace, STAGE_ORDER } from './trace-util.js';
+
 const CJK = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}\p{Script=Bopomofo}]/u;
 const WORD = /[\p{L}\p{N}]/u;
 const EMOJI = /\p{Extended_Pictographic}/u;
+const MARK = /^\p{M}+$/u;
+
+// Break-decision tracing. Traces are opt-in: the default layout path allocates
+// nothing and keeps the previous behaviour byte-for-byte.
+export { TRACE_SCHEMA, hashText };
+export const MIN_BOX_WIDTH_PX = 240;
+export const DEFAULT_TRACE_LIMITS = {
+  maxUnits: 120,
+  maxCandidateSamples: 48,
+  maxLines: 240,
+  maxRejectedKinds: 16,
+};
 
 const CLOSING = new Set(Array.from('，。、；：？！）】》」』〕〉”’…—～·%,.;:!?)]}»'));
 const OPENING = new Set(Array.from('（【《「『〔〈“‘([{«'));
@@ -31,6 +45,121 @@ export function segmentGraphemes(text) {
 
 function atomsOf(graphemes) {
   return graphemes.map((text) => ({ text, kind: classify(text) }));
+}
+
+// ---------------------------------------------------------------------------
+// Break-decision trace. Every record names the stage that produced it, so a
+// wrong line can be attributed to shaping, measured width, kinsoku filtering,
+// the DP solve, or the final line box instead of a catch-all "box too narrow".
+// ---------------------------------------------------------------------------
+
+function countGraphemes(text) {
+  const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+  let count = 0;
+  for (const _ of seg.segment(text)) count += 1;
+  return count;
+}
+
+function describeGrapheme(grapheme, index) {
+  return {
+    index,
+    glyph: grapheme,
+    codePoints: Array.from(grapheme, (ch) => `U+${ch.codePointAt(0).toString(16).toUpperCase()}`),
+    clusterLength: Array.from(grapheme).length,
+    kind: classify(grapheme),
+    hasMarks: Array.from(grapheme).some((ch) => MARK.test(ch)),
+    emoji: EMOJI.test(grapheme),
+  };
+}
+
+// Font resolution is a shaping-stage fact, not a width fact. The tracer accepts
+// a coverage map computed from the declared font files so a fallback glyph can
+// be priced separately from the box width.
+function fallbackForGraphemes(graphemes, coverage) {
+  if (!coverage || !coverage.byGlyph) return null;
+  const entries = [];
+  const seen = new Map();
+  let fallbackCount = 0;
+  let missingCount = 0;
+  let total = 0;
+  for (let i = 0; i < graphemes.length; i += 1) {
+    const glyph = graphemes[i];
+    if (/^\s+$/u.test(glyph)) continue;
+    const record = coverage.byGlyph[glyph];
+    if (!record) continue;
+    total += 1;
+    if (record.fallback) {
+      fallbackCount += 1;
+      if (record.missing) missingCount += 1;
+    }
+    if (!seen.has(glyph)) {
+      seen.set(glyph, true);
+      entries.push({
+        index: i,
+        glyph,
+        codePoints: Array.from(glyph, (ch) => `U+${ch.codePointAt(0).toString(16).toUpperCase()}`),
+        family: record.family,
+        file: record.file || null,
+        fallback: Boolean(record.fallback),
+        missing: Boolean(record.missing),
+        occurrences: 1,
+      });
+    } else {
+      const entry = entries.find((item) => item.glyph === glyph);
+      if (entry) entry.occurrences += 1;
+    }
+  }
+  const declared = coverage.families || null;
+  return {
+    declared,
+    entries,
+    truncated: false,
+    glyphCount: total,
+    fallbackCount,
+    missingCount,
+    fallbackFamilies: [...new Set(entries.filter((entry) => entry.fallback).map((entry) => entry.family))],
+  };
+}
+
+function canBreakReason(prev, next) {
+  if (!prev || !next) return { allowed: false, rule: 'edge' };
+  if (prev.kind === 'hard' || next.kind === 'hard') return { allowed: true, rule: 'hard-newline' };
+  if (next.kind === 'space') return { allowed: false, rule: 'no-break-before-space' };
+  if (prev.kind === 'space') return { allowed: true, rule: 'break-after-space' };
+  if (prev.kind === 'open') return { allowed: false, rule: 'no-break-after-opening' };
+  if (next.kind === 'close') return { allowed: false, rule: 'no-break-before-closing' };
+  if (INSEPARABLE.has(next.text)) return { allowed: false, rule: 'no-break-before-inseparable' };
+  if (prev.text === '-' && WORD.test(next.text)) return { allowed: true, rule: 'break-after-hyphen' };
+  if (prev.text === '~' || next.text === '~') return { allowed: false, rule: 'no-break-around-tilde' };
+  if (prev.kind === 'word' && next.kind === 'word') return { allowed: false, rule: 'inside-word' };
+  return { allowed: true, rule: 'default' };
+}
+
+function describeBreaks(graphemes, atoms, candidates, emergencyBreak) {
+  const admitted = new Set(candidates);
+  const rejected = [];
+  const rejectedKinds = new Map();
+  for (let i = 1; i < graphemes.length; i += 1) {
+    if (admitted.has(i)) continue;
+    const info = canBreakReason(atoms[i - 1], atoms[i]);
+    const rule = info.allowed ? (applyKinsoku(graphemes, i) || 'admitted') : info.rule;
+    rejectedKinds.set(rule, (rejectedKinds.get(rule) || 0) + 1);
+    if (rejected.length < 48) {
+      rejected.push({
+        index: i,
+        before: describeGrapheme(graphemes[i - 1], i - 1),
+        after: describeGrapheme(graphemes[i], i),
+        rule,
+        baseRule: info.rule,
+      });
+    }
+  }
+  return {
+    admitted,
+    rejected,
+    rejectedKinds: [...rejectedKinds.entries()].map(([rule, count]) => ({ rule, count })),
+    emergencyBreak: Boolean(emergencyBreak),
+  };
 }
 
 export function canBreakBetween(prev, next) {
@@ -62,17 +191,39 @@ export function validateLineBoundaries(lines) {
   return violations;
 }
 
-function makeMeasurer(fontSize, fontWeight, fontStack, tracking = 0) {
-  const ctx = document.createElement('canvas').getContext('2d');
+function makeMeasurer(fontSize, fontWeight, fontStack, tracking = 0, role = null) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
   ctx.font = `${fontWeight} ${fontSize}px ${fontStack}`;
-  if ('letterSpacing' in ctx) ctx.letterSpacing = `${tracking}px`;
+  const supportsLetterSpacing = 'letterSpacing' in ctx;
+  if (supportsLetterSpacing) ctx.letterSpacing = `${tracking}px`;
+  const appliedSpacing = supportsLetterSpacing ? ctx.letterSpacing : null;
+  const transform = typeof ctx.getTransform === 'function' ? ctx.getTransform() : null;
+  const scale = transform ? Math.hypot(transform.a, transform.b) : 1;
   const cache = new Map();
-  return (text) => {
+  const samples = [];
+  const measure = (text) => {
     if (cache.has(text)) return cache.get(text);
     const width = ctx.measureText(text).width;
     cache.set(text, width);
+    samples.push({ text, width });
     return width;
   };
+  measure.telemetry = () => ({
+    font: ctx.font,
+    fontSize,
+    fontWeight,
+    tracking,
+    role,
+    letterSpacingSupported: supportsLetterSpacing,
+    letterSpacingRequested: `${tracking}px`,
+    letterSpacingApplied: appliedSpacing,
+    scale,
+    calls: samples.length,
+    unique: cache.size,
+    samples,
+  });
+  return measure;
 }
 
 function lineGeometry(graphemes, start, end) {
@@ -83,15 +234,20 @@ function lineGeometry(graphemes, start, end) {
   return { a, b, text: graphemes.slice(a, b).join('') };
 }
 
+// Shared by the solver and the tracer so a traced rule can never disagree with
+// the rule that actually produced the break.
+function applyKinsoku(graphemes, i) {
+  if (CLOSING.has(graphemes[i]) || INSEPARABLE.has(graphemes[i])) return 'no-break-before-closing';
+  if (OPENING.has(graphemes[i - 1])) return 'no-break-after-opening';
+  return null;
+}
+
 function buildCandidates(graphemes, measure, availableWidth, emergencyBreak) {
   const atoms = atomsOf(graphemes);
   const candidates = [];
   for (let i = 1; i < graphemes.length; i += 1) {
     if (!canBreakBetween(atoms[i - 1], atoms[i])) continue;
-    // Kinsoku: no line may start with a closing mark or an ellipsis/dash,
-    // and no line may end with an opening bracket.
-    if (CLOSING.has(graphemes[i]) || INSEPARABLE.has(graphemes[i])) continue;
-    if (OPENING.has(graphemes[i - 1])) continue;
+    if (applyKinsoku(graphemes, i)) continue;
     candidates.push(i);
   }
   if (emergencyBreak) {
@@ -132,11 +288,13 @@ function unbreakableTokens(graphemes, measure, availableWidth) {
 // count is impossible, the natural unclipped layout is returned with explicit
 // overflow diagnostics; text is never dropped.
 function layoutParagraph(graphemes, options) {
-  const { measure, availableWidth, maxLines, emergencyBreak } = options;
+  const { measure, availableWidth, maxLines, emergencyBreak, trace } = options;
   const n = graphemes.length;
   if (n === 0) return { lines: [], lineCount: 0, issues: [] };
-  const breakSet = new Set([0, n, ...buildCandidates(graphemes, measure, availableWidth, emergencyBreak)]);
+  const candidates = buildCandidates(graphemes, measure, availableWidth, emergencyBreak);
+  const breakSet = new Set([0, n, ...candidates]);
   const breaks = [...breakSet].sort((a, b) => a - b);
+  const atoms = trace ? atomsOf(graphemes) : null;
 
   const lineCache = new Map();
   const getLine = (a, b) => {
@@ -149,13 +307,13 @@ function layoutParagraph(graphemes, options) {
     return result;
   };
 
-  const lineCost = (line) => {
-    if (line.over > 0) return 1e12 + line.over * 1e7;
-    const slack = availableWidth - line.width;
+  const lineCost = (line, width) => {
+    if (line.width > width) return 1e12 + (line.width - width) * 1e7;
+    const slack = width - line.width;
     return slack * slack;
   };
 
-  const solve = (lineLimit) => {
+  const solve = (lineLimit, width = availableWidth) => {
     const dp = Array.from({ length: lineLimit + 1 }, () => new Map());
     const parent = Array.from({ length: lineLimit + 1 }, () => new Map());
     dp[0].set(0, 0);
@@ -169,7 +327,7 @@ function layoutParagraph(graphemes, options) {
           if (!dp[k - 1].has(start)) continue;
           const line = getLine(start, end);
           if (!line.text && end !== n) continue;
-          const cost = dp[k - 1].get(start) + lineCost(line);
+          const cost = dp[k - 1].get(start) + lineCost(line, width);
           if (cost < best) { best = cost; bestStart = start; }
         }
         if (bestStart !== null) {
@@ -198,8 +356,98 @@ function layoutParagraph(graphemes, options) {
   const clean = solve(maxLines);
   const naturalLimit = Math.min(n, Math.max(maxLines + 1, 24));
   const natural = solve(naturalLimit) || solve(maxLines);
+  // Counterfactual: what would happen at the full canvas limit? This is the only
+  // honest evidence for "the dragged box was the binding constraint".
+  const alternativeWidth = trace?.alternativeWidth;
+  const counterfactual = alternativeWidth && alternativeWidth > availableWidth
+    ? (() => {
+      const wide = solve(Math.min(n, 24), alternativeWidth);
+      if (!wide) return { width: alternativeWidth, solved: false };
+      return {
+        width: alternativeWidth,
+        solved: true,
+        lineCount: wide.lineCount,
+        overflowPx: round(wide.lines.reduce((sum, line) => sum + Math.max(0, line.width - alternativeWidth), 0)),
+        widestLinePx: round(Math.max(0, ...wide.lines.map((line) => line.width))),
+      };
+    })()
+    : null;
   const cleanHasOverflow = !clean || clean.lines.some((line) => line.over > 0);
   const chosen = cleanHasOverflow ? natural : clean;
+
+  if (trace) {
+    const breaksInfo = describeBreaks(graphemes, atoms, candidates, emergencyBreak);
+    const limits = trace.limits || DEFAULT_TRACE_LIMITS;
+    const firstA = chosen.lines[0]?.a;
+    const lastVisibleEnd = chosen.lines.length ? chosen.lines[chosen.lines.length - 1].b : null;
+    const telemetry = measure.telemetry();
+
+    trace.stages.shape = {
+      stage: 'shape',
+      ok: true,
+      graphemeCount: n,
+      graphemes: graphemes.slice(0, limits.maxUnits).map((glyph, index) => describeGrapheme(glyph, index)),
+      truncatedGraphemes: Math.max(0, n - limits.maxUnits),
+      paragraphs: trace.paragraphCount || 1,
+      paragraphOffset: trace.offset || 0,
+    };
+    trace.stages.measure = {
+      stage: 'measure',
+      ok: telemetry.tracking === 0 || telemetry.letterSpacingSupported,
+      font: telemetry.font,
+      fontSize: telemetry.fontSize,
+      fontWeight: telemetry.fontWeight,
+      tracking: telemetry.tracking,
+      letterSpacingRequested: telemetry.letterSpacingRequested,
+      letterSpacingApplied: telemetry.letterSpacingApplied,
+      letterSpacingSupported: telemetry.letterSpacingSupported,
+      scale: telemetry.scale,
+      availableWidth: round(availableWidth),
+      memoCalls: telemetry.calls,
+      memoEntries: telemetry.unique,
+      samples: telemetry.samples.slice(0, limits.maxCandidateSamples).map((sample) => ({
+        text: sample.text,
+        width: round(sample.width),
+        chars: Array.from(sample.text).length,
+      })),
+    };
+    trace.stages.geometry = {
+      stage: 'geometry',
+      ok: firstA === 0 && (lastVisibleEnd === n || lastVisibleEnd == null),
+      graphemeCount: n,
+      breakCandidateCount: candidates.length,
+      breakCandidates: breaks.slice(0, limits.maxCandidateSamples),
+      truncatedCandidates: Math.max(0, breaks.length - limits.maxCandidateSamples),
+      firstVisibleStart: firstA,
+      lastVisibleEnd,
+      availableWidth: round(availableWidth),
+      maxLines,
+    };
+    trace.stages.candidates = {
+      stage: 'candidates',
+      ok: true,
+      emergencyBreak: Boolean(emergencyBreak),
+      admittedCount: breaksInfo.admitted.size,
+      admitted: [...breaksInfo.admitted].sort((a, b) => a - b).slice(0, limits.maxCandidateSamples),
+      rejectedCount: breaksInfo.rejected.length,
+      rejected: breaksInfo.rejected.slice(0, limits.maxCandidateSamples),
+      rejectedKinds: breaksInfo.rejectedKinds.slice(0, limits.maxRejectedKinds),
+      omittedRejected: Math.max(0, breaksInfo.rejected.length - limits.maxCandidateSamples),
+      unbreakableTokens: emergencyBreak ? [] : unbreakableTokens(graphemes, measure, availableWidth),
+    };
+    trace.stages.solve = {
+      stage: 'solve',
+      ok: Boolean(chosen.lines.length),
+      lineLimitTried: naturalLimit,
+      cleanLineCount: clean ? clean.lineCount : null,
+      cleanOverflowPx: clean ? round(clean.lines.reduce((sum, line) => sum + line.over, 0)) : null,
+      chosenLineCount: chosen.lineCount,
+      choice: cleanHasOverflow && natural !== clean ? 'natural-overflow' : 'clean',
+      maxLines,
+      cost: round(chosen.cost),
+      counterfactual,
+    };
+  }
 
   const issues = [];
   for (const line of chosen.lines) {
@@ -353,8 +601,168 @@ export async function verifyFontRequests(settings) {
   return results;
 }
 
-export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['original', 'translation'] }) {
+// Renders the language pair into a comparable key so a bilingual trace can be
+// replayed against the same pair instead of whatever the editor later holds.
+function languagePair(languages) {
+  if (!languages) return null;
+  return { original: languages.original ?? null, translation: languages.translation ?? null };
+}
+
+function newRoleTrace(groupId, role, activeTrace) {
+  return {
+    schema: TRACE_SCHEMA,
+    groupId,
+    role,
+    revision: activeTrace.revision || null,
+    languages: languagePair(activeTrace.languages),
+    stages: {},
+    limits: { ...DEFAULT_TRACE_LIMITS, ...(activeTrace.limits || {}) },
+    coverage: activeTrace.coverage || null,
+  };
+}
+
+function completeRoleTrace(roleTrace, context) {
+  const {
+    groupId, role, text, graphemes, measure, roleSettings, availableWidth,
+    lineHeightPx, textBoxes, boundaryViolations, integrityOk, lines, paragraphs,
+    languages, boxWidthPx, boxWidthSource, canvasTextLimit, clamped,
+  } = context;
+  const telemetry = measure.telemetry();
+  const stages = roleTrace.stages;
+  const limits = roleTrace.limits;
+
+  // Shaping always owns the cluster decision, even when no break ever reached
+  // it. Without this the tracer could not tell shaping from measurement.
+  stages.shape = {
+    stage: 'shape',
+    // A cluster that *contains* a combining mark is correct segmentation. Only
+    // a cluster made entirely of marks means the base character was split away.
+    ok: graphemes.every((glyph) => {
+      const chars = Array.from(glyph);
+      return chars.length === 0 || !chars.every((ch) => MARK.test(ch));
+    }),
+    graphemeCount: graphemes.length,
+    graphemes: graphemes.slice(0, limits.maxUnits).map((glyph, index) => describeGrapheme(glyph, index)),
+    truncatedGraphemes: Math.max(0, graphemes.length - limits.maxUnits),
+    paragraphs: paragraphs.length,
+    segmenter: 'Intl.Segmenter/grapheme',
+    fontFallback: fallbackForGraphemes(graphemes, context.coverage),
+  };
+  stages.measure = {
+    stage: 'measure',
+    ok: (telemetry.tracking === 0 || Boolean(telemetry.letterSpacingSupported)) && telemetry.scale === 1,
+    font: telemetry.font,
+    fontSize: telemetry.fontSize,
+    fontWeight: telemetry.fontWeight,
+    tracking: telemetry.tracking,
+    letterSpacingRequested: telemetry.letterSpacingRequested,
+    letterSpacingApplied: telemetry.letterSpacingApplied,
+    letterSpacingSupported: telemetry.letterSpacingSupported,
+    scale: telemetry.scale,
+    availableWidth: round(availableWidth),
+    memoCalls: telemetry.calls,
+    memoEntries: telemetry.unique,
+    samples: telemetry.samples.slice(0, limits.maxCandidateSamples).map((sample) => ({
+      text: sample.text,
+      width: round(sample.width),
+      chars: Array.from(sample.text).length,
+      graphemes: countGraphemes(sample.text),
+    })),
+  };
+  if (!stages.geometry) {
+    stages.geometry = {
+      stage: 'geometry',
+      ok: true,
+      emptyInput: graphemes.length === 0,
+      note: 'no non-empty paragraph required geometry work',
+    };
+  }
+  if (!stages.candidates) {
+    stages.candidates = {
+      stage: 'candidates',
+      ok: true,
+      admittedCount: 0,
+      admitted: [],
+      rejectedCount: 0,
+      rejected: [],
+      rejectedKinds: [],
+      emptyInput: true,
+    };
+  }
+  if (!stages.solve) {
+    stages.solve = {
+      stage: 'solve',
+      ok: lines.length > 0 || graphemes.length === 0,
+      chosenLineCount: lines.length,
+      emptyInput: graphemes.length === 0,
+    };
+  }
+
+  const measureSamples = new Map(telemetry.samples.map((sample) => [sample.text, sample.width]));
+  stages['line-box'] = {
+    stage: 'line-box',
+    ok: integrityOk && boundaryViolations.length === 0 && textBoxes.every((box) => box.over === 0),
+    lineHeightPx,
+    framingNote: 'the framing stage consumes measured widths; it never re-measures text',
+    lines: textBoxes.slice(0, limits.maxLines).map((box) => {
+      const visible = graphemes.slice(box.start, box.end).join('');
+      return {
+        lineIndex: box.lineIndex,
+        text: box.text,
+        start: box.start,
+        end: box.end,
+        width: box.width,
+        height: box.height,
+        over: box.over,
+        visibleSliceMatches: visible === box.text,
+        widthSource: {
+          measuredPx: round(measureSamples.get(box.text) ?? box.width),
+          fromMemo: measureSamples.has(box.text),
+          chars: Array.from(box.text).length,
+          graphemes: countGraphemes(box.text),
+        },
+        fontFallback: fallbackForGraphemes(graphemes.slice(box.start, box.end), context.coverage),
+      };
+    }),
+    truncatedLines: Math.max(0, textBoxes.length - limits.maxLines),
+    overflowLines: textBoxes.filter((box) => box.over > 0).length,
+    startsWithClosing: boundaryViolations.some((violation) => violation.position === 'start'),
+    endsWithOpening: boundaryViolations.some((violation) => violation.position === 'end'),
+    boundaryViolations,
+    integrityOk,
+  };
+  stages.mount = {
+    stage: 'mount',
+    ok: true,
+    boxWidthPx: boxWidthPx ?? null,
+    boxWidthSource,
+    clampedToCanvasLimit: Boolean(clamped),
+    canvasTextLimit: round(canvasTextLimit),
+    maxTextWidthPx: Number(roleSettings.maxTextWidthPx ?? 0) || null,
+    availableWidth: round(availableWidth),
+    letterSpacingAppliesToDom: Boolean(telemetry.letterSpacingSupported),
+    spaceLeftPx: round(Math.max(0, availableWidth - Math.max(0, ...textBoxes.map((box) => box.width)))),
+  };
+  stages.bind = {
+    stage: 'bind',
+    ok: true,
+    groupId,
+    role,
+    textHash: hashText(text),
+    text,
+    chars: Array.from(text).length,
+    graphemes: graphemes.length,
+    lines: textBoxes.length,
+    language: languages?.[role] ?? null,
+    languagePair: languagePair(languages),
+  };
+
+  roleTrace.paragraphs = paragraphs.length;
+}
+
+export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['original', 'translation'], trace = null }) {
   if (!activeGroups.length) {
+    if (trace) trace.emptyScene = true;
     return { blocks: [], issues: [], suggestions: [], canvas, availableWidth: 0, canvasTextLimit: 0, safeMarginPx: settings.safeMarginPx, fontStack: fontStackFromSettings(settings), totalHeight: 0 };
   }
   const W = canvas.width;
@@ -364,7 +772,36 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
   const markerGutter = 46;
   const panelPad = settings.panelPadding;
   const canvasTextLimit = W - 2 * safe - 2 * panelPad - markerGutter;
+  // A per-group box width stands in for a dragged subtitle frame. It is clamped
+  // to the same safe-area limit the canvas imposes and never silently widened.
+  const defaultBox = Number(settings.boxWidthPx);
+  const groupBox = (group) => {
+    const value = Number(group.boxWidthPx);
+    return Number.isFinite(value) && value > 0 ? Math.round(value) : null;
+  };
+  const boxFor = (group) => {
+    const requested = groupBox(group) ?? (Number.isFinite(defaultBox) && defaultBox > 0 ? Math.round(defaultBox) : null);
+    return {
+      requested,
+      usable: requested != null ? Math.min(requested, canvasTextLimit) : Math.min(settings.maxTextWidthPx, canvasTextLimit),
+      clamped: requested != null && requested > canvasTextLimit,
+      source: requested == null ? 'settings.maxTextWidthPx' : (groupBox(group) != null ? 'dragged-group-box' : 'settings.boxWidthPx'),
+    };
+  };
   const availableWidth = Math.min(settings.maxTextWidthPx, canvasTextLimit);
+  const activeTrace = trace;
+  if (activeTrace) {
+    activeTrace.scene = {
+      groupCount: activeGroups.length,
+      groups: activeGroups.map((group) => {
+        const box = boxFor(group);
+        return { id: group.id, start: group.start, end: group.end, boxWidthPx: box.requested, availableWidth: round(box.usable) };
+      }),
+      availableWidth: round(availableWidth),
+      canvasTextLimit: round(canvasTextLimit),
+    };
+    if (!Array.isArray(activeTrace.roles)) activeTrace.roles = [];
+  }
 
   const blocks = [];
   const issues = [];
@@ -396,30 +833,51 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
   }
 
   for (const group of activeGroups) {
+    const box = boxFor(group);
+    const groupAvailableWidth = box.usable;
     const roles = [];
     for (const role of roleOrder) {
       const roleSettings = settings[role];
       const text = group[role] ?? '';
       const graphemes = segmentGraphemes(text);
-      const measure = makeMeasurer(roleSettings.fontSize, roleSettings.fontWeight, fontStack, roleSettings.tracking);
+      const measure = makeMeasurer(roleSettings.fontSize, roleSettings.fontWeight, fontStack, roleSettings.tracking, role);
       const paragraphs = [];
+      let cursor = 0;
       let buffer = [];
       for (const grapheme of graphemes) {
         if (grapheme === '\n') {
-          paragraphs.push({ graphemes: buffer, offset: paragraphs.reduce((sum, p) => sum + p.graphemes.length + 1, 0) });
+          paragraphs.push({ graphemes: buffer, offset: cursor });
+          cursor += buffer.length + 1;
           buffer = [];
         } else buffer.push(grapheme);
       }
-      paragraphs.push({ graphemes: buffer, offset: paragraphs.reduce((sum, p) => sum + p.graphemes.length + 1, 0) });
+      paragraphs.push({ graphemes: buffer, offset: cursor });
 
       const lines = [];
       const roleIssues = [];
+      const roleTrace = activeTrace ? newRoleTrace(group.id, role, activeTrace) : null;
+      const paragraphCount = paragraphs.length;
       for (const paragraph of paragraphs) {
+        const paragraphTrace = roleTrace && paragraphCount === 1
+          ? {
+            stages: roleTrace.stages,
+            offset: paragraph.offset,
+            limits: roleTrace.limits,
+            paragraphCount,
+            coverage: roleTrace.coverage,
+            alternativeWidth: canvasTextLimit,
+          }
+          : null;
+        if (roleTrace && paragraphCount > 1 && !roleTrace.partial) {
+          roleTrace.partial = true;
+          roleTrace.partialReason = 'hard-newline paragraphs reset the solver; stage detail recorded once';
+        }
         const layout = layoutParagraph(paragraph.graphemes, {
           measure,
-          availableWidth,
+          availableWidth: groupAvailableWidth,
           maxLines: roleSettings.maxLines,
           emergencyBreak: Boolean(settings.emergencyBreak),
+          trace: paragraphTrace,
         });
         for (const line of layout.lines) {
           lines.push({
@@ -450,6 +908,7 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
         over: round(line.over),
       }));
       const boundaryViolations = validateLineBoundaries(textBoxes);
+      const integrityOk = normalizeForCompare(joined) === normalizeForCompare(text);
       roles.push({
         role,
         groupId: group.id,
@@ -463,19 +922,44 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
         width: round(roleWidth),
         height: roleHeight,
         integrity: {
-          ok: normalizeForCompare(joined) === normalizeForCompare(text),
+          ok: integrityOk,
           reassembled: joined,
           expected: text,
         },
         boundaryViolations,
         issues: roleIssues,
+        trace: roleTrace || undefined,
       });
       for (const issue of roleIssues) issues.push(issue);
-      if (!roles[roles.length - 1].integrity.ok) {
+      if (!integrityOk) {
         issues.push({ type: 'text-integrity', groupId: group.id, role, message: '断行后文本与原文字符不一致（不允许删词）' });
       }
       if (boundaryViolations.length) {
         issues.push({ type: 'punctuation-boundary', groupId: group.id, role, violations: boundaryViolations });
+      }
+      if (roleTrace) {
+        completeRoleTrace(roleTrace, {
+          groupId: group.id,
+          role,
+          text,
+          graphemes,
+          measure,
+          roleSettings,
+          availableWidth: groupAvailableWidth,
+          lineHeightPx,
+          textBoxes,
+          boundaryViolations,
+          integrityOk,
+          lines,
+          paragraphs,
+          languages: activeTrace.languages,
+          boxWidthPx: box.requested,
+          boxWidthSource: box.source,
+          canvasTextLimit,
+          clamped: box.clamped,
+          coverage: activeTrace.coverage,
+        });
+        activeTrace.roles.push(roleTrace);
       }
     }
 
@@ -487,6 +971,10 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
       groupId: group.id,
       start: group.start,
       end: group.end,
+      boxWidthPx: box.requested,
+      boxWidthSource: box.source,
+      availableWidth: round(box.usable),
+      canvasTextLimit: round(canvasTextLimit),
       panelWidth,
       panelHeight,
       panelPad: pad,
@@ -528,10 +1016,11 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
   }
 
   const suggestions = [];
+  const blockAvail = new Map(activeGroups.map((group) => [group.id, boxFor(group).usable]));
   for (const block of blocks) {
     for (const role of block.roles) {
       const layout = { lines: role.lines.map((line) => ({ width: line.width, text: line.text, over: line.over })), issues: role.issues };
-      const roleSuggestions = findSuggestions(role.role, availableWidth, W - 2 * safe - 2 * panelPad - markerGutter, layout, settings);
+      const roleSuggestions = findSuggestions(role.role, blockAvail.get(block.groupId), W - 2 * safe - 2 * panelPad - markerGutter, layout, settings);
       if (roleSuggestions.length) suggestions.push({ groupId: block.groupId, role: role.role, suggestions: roleSuggestions });
     }
   }
@@ -561,6 +1050,15 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
     }
   }
 
+  if (activeTrace) {
+    activeTrace.scene.blocks = blocks.map((block) => ({
+      groupId: block.groupId,
+      panel: { x: block.x, y: block.y, width: block.panelWidth, height: block.panelHeight },
+      roles: block.roles.map((role) => ({ role: role.role, lines: role.lines.length, width: role.width })),
+    }));
+    finalizeTrace(activeTrace);
+  }
+
   return {
     blocks,
     issues,
@@ -571,6 +1069,7 @@ export function buildLayout({ activeGroups, settings, canvas, roleOrder = ['orig
     safeMarginPx: safe,
     fontStack,
     totalHeight: round(totalHeight),
+    trace: activeTrace || undefined,
   };
 }
 
@@ -620,11 +1119,20 @@ export function renderOverlayHTML(layout, settings, options = {}) {
           ${linesHtml}
         </div>`;
     }).join('');
+    const handle = options.draggable
+      ? `<div class="box-handle" data-box-handle="${escapeHtml(block.groupId)}" title="拖动改变框宽（作用于该字幕组）"
+             style="position:absolute;right:-9px;top:50%;transform:translateY(-50%);width:18px;height:64px;border-radius:5px;background:${accent};opacity:.75;cursor:ew-resize;pointer-events:auto;display:flex;align-items:center;justify-content:center;">
+           <span style="width:3px;height:34px;background:rgba(0,0,0,.4);border-radius:2px;"></span>
+         </div>`
+      : '';
     return `
       <div class="group-block" data-group-block="${escapeHtml(block.groupId)}"
+           data-available-width="${Math.round(block.availableWidth ?? 0)}"
+           data-canvas-limit="${Math.round(block.canvasTextLimit ?? 0)}"
            style="position:absolute;left:${block.x}px;top:${block.y}px;width:${block.panelWidth}px;height:${block.panelHeight}px;background:rgba(7,11,18,${settings.panelAlpha});border-left:4px solid ${accent};border-radius:8px;${colorKey}">
         ${options.showTags ? `<div class="group-tag" style="position:absolute;left:6px;top:-22px;font:600 15px/18px ${attrFont};color:${accent};opacity:.9;">${escapeHtml(block.groupId)} · ${index + 1}</div>` : ''}
         ${rolesHtml}
+        ${handle}
       </div>`;
   }).join('');
   return `
@@ -636,7 +1144,7 @@ export function renderOverlayHTML(layout, settings, options = {}) {
 }
 
 export function layoutSummary(layout) {
-  return {
+  const summary = {
     canvas: layout.canvas,
     availableWidth: layout.availableWidth,
     canvasTextLimit: layout.canvasTextLimit,
@@ -662,4 +1170,6 @@ export function layoutSummary(layout) {
       })),
     })),
   };
+  if (layout.trace) summary.trace = layout.trace;
+  return summary;
 }

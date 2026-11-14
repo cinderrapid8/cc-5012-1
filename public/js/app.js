@@ -1,4 +1,5 @@
 import * as Engine from './layout-engine.js';
+import { diagnoseTrace } from './break-diagnostics.js';
 
 const $ = (selector) => document.querySelector(selector);
 const state = {
@@ -18,6 +19,9 @@ const state = {
   fonts: null,
   renders: [],
   diagnostics: null,
+  trace: null,
+  focus: null,
+  coverage: null,
 };
 
 const els = {
@@ -262,20 +266,22 @@ async function updateFallbackDetail() {
   const requested = state.fonts?.families || [];
   const missing = requested.filter((font) => font.status === 'missing-file').map((font) => font.family);
   const lines = [];
+  const byGlyph = state.coverage?.byGlyph || {};
   for (const block of state.layout.blocks) {
     for (const role of block.roles) {
-      try {
-        const report = await api('/api/font-coverage', {
-          method: 'POST',
-          body: { text: role.text, settings: state.project.settings },
-        });
-        const used = summarizeRuns(report.resolved || []);
-        const unresolved = report.unresolved || [];
-        lines.push(`${block.groupId}/${role.role === 'original' ? '原文' : '译文'} → ${used || '无'}`);
-        if (unresolved.length) lines.push(`  ⚠ 无字体覆盖：${unresolved.join(' ')}`);
-      } catch (error) {
-        lines.push(`${block.groupId}/${role.role}: 统计失败 ${error.message}`);
+      const runs = new Map();
+      const unresolved = new Set();
+      for (const grapheme of Engine.segmentGraphemes(role.text || '')) {
+        if (/^\s$/u.test(grapheme)) continue;
+        const record = byGlyph[grapheme];
+        if (!record) continue;
+        const name = record.family;
+        runs.set(name, (runs.get(name) || 0) + 1);
+        if (record.fallback) unresolved.add(grapheme);
       }
+      const used = [...runs.entries()].map(([family, count]) => `${family}(${count})`).join(' + ');
+      lines.push(`${block.groupId}/${role.role === 'original' ? '原文' : '译文'} → ${used || '无'}`);
+      if (unresolved.size) lines.push(`  ⚠ 无字体覆盖：${[...unresolved].join(' ')}`);
     }
   }
   const measured = await measureActualFonts();
@@ -399,6 +405,16 @@ function renderEditor() {
       <textarea class="trans" data-field="translation" spellcheck="false">${escapeHtml(edit.translation)}</textarea>
       <span class="hint">源译文：${escapeHtml(source.translation)}</span>
     </label>
+    <div class="block-title">本组框宽（双语断行内核驱动）</div>
+    <div class="row2">
+      <label class="field">框宽 px
+        <input type="number" step="10" min="${Engine.MIN_BOX_WIDTH_PX}" max="1920" data-group-box value="${edit.boxWidthPx ?? ''}" placeholder="跟随文本最大宽度" />
+      </label>
+      <label class="field">框宽来源
+        <span class="hint" data-box-source>${edit.boxWidthPx == null ? '跟随设置的最大宽度' : '拖动/输入的本组框宽'}</span>
+      </label>
+    </div>
+    <div class="hint">拖动预览中的橙色手柄，或在此输入框宽；两者都写入工程并按当前修订重新断行。清空则回落到文本最大宽度。</div>
     <div class="block-title">版式（作用于全片，作为独立工程设置保存）</div>
     <div class="row4">
       ${roleControls('original', '原文字号', settings.original)}
@@ -445,6 +461,19 @@ function renderEditor() {
       scheduleRelayout();
     });
   });
+  const boxInput = els.editor.querySelector('[data-group-box]');
+  if (boxInput) {
+    boxInput.addEventListener('input', () => {
+      const raw = boxInput.value.trim();
+      const value = raw === '' ? null : Number(raw);
+      if (raw !== '' && !Number.isFinite(value)) return;
+      group.edit.boxWidthPx = value == null ? null : Math.round(value);
+      const sourceNode = els.editor.querySelector('[data-box-source]');
+      if (sourceNode) sourceNode.textContent = value == null ? '跟随设置的最大宽度' : '拖动/输入的本组框宽';
+      setDirty(true);
+      scheduleRelayout();
+    });
+  }
   els.editor.querySelectorAll('[data-role-setting]').forEach((node) => {
     node.addEventListener('input', () => {
       const [role, key] = node.dataset.roleSetting.split('.');
@@ -498,6 +527,7 @@ function activeGroupsAt(time) {
       translation: group.edit.translation,
       start: group.edit.start,
       end: group.edit.end,
+      boxWidthPx: group.edit.boxWidthPx,
     }));
 }
 
@@ -508,12 +538,55 @@ function activeGroupsForLayout(time) {
 async function relayout() {
   if (!state.project) return;
   const active = activeGroupsForLayout(state.time);
-  const layout = Engine.buildLayout({ activeGroups: active, settings: state.project.settings, canvas: state.source.canvas });
+  const trace = {
+    revision: state.project.revision,
+    languages: state.source.languages,
+    coverage: state.coverage || undefined,
+  };
+  try {
+    state.coverage = await loadCoverage(active);
+  } catch {
+    // Coverage is advisory; a failed lookup must not abort the layout. The trace
+    // still records that shaping had no coverage map.
+  }
+  if (state.coverage) trace.coverage = state.coverage;
+  const layout = Engine.buildLayout({ activeGroups: active, settings: state.project.settings, canvas: state.source.canvas, trace });
   state.layout = layout;
+  state.trace = layout.trace || null;
+  state.diagnostics = state.trace ? diagnoseTrace(state.trace) : null;
   await paintOverlay(layout);
   renderDiagnostics(layout);
+  syncBoxControl();
   updateLiveIssues(layout);
   await updateFallbackDetail();
+}
+
+// Keeps the editor's box-width field in step with a drag without re-rendering the
+// editor (which would drop the caret while the user is typing).
+function syncBoxControl() {
+  const input = els.editor.querySelector('[data-group-box]');
+  if (!input || input === document.activeElement) return;
+  const group = allProjectGroups().find((item) => item.id === state.activeGroupId);
+  const next = group?.edit?.boxWidthPx ?? '';
+  if (String(input.value) !== String(next)) input.value = next;
+  const sourceNode = els.editor.querySelector('[data-box-source]');
+  if (sourceNode) sourceNode.textContent = group?.edit?.boxWidthPx == null ? '跟随设置的最大宽度' : '拖动/输入的本组框宽';
+}
+
+const coverageCache = new Map();
+async function loadCoverage(active) {
+  const text = active.map((group) => `${group.original}\u0000${group.translation}`).join('\u0000');
+  if (!text) return null;
+  const key = `${state.project.revision}|${text}`;
+  if (coverageCache.has(key)) return coverageCache.get(key);
+  if (!state.project) return null;
+  const report = await api('/api/font-coverage', {
+    method: 'POST',
+    body: { text: active.map((group) => `${group.original}\n${group.translation}`).join('\n'), settings: state.project.settings },
+  });
+  const coverage = { byGlyph: report.byGlyph || {}, families: report.families || [] };
+  coverageCache.set(key, coverage);
+  return coverage;
 }
 
 async function paintOverlay(layout) {
@@ -531,9 +604,54 @@ async function paintOverlay(layout) {
   inner.style.height = `${state.source.canvas.height}px`;
   inner.style.transform = `scale(${scale})`;
   inner.style.transformOrigin = 'top left';
-  inner.innerHTML = Engine.renderOverlayHTML(layout, state.project.settings, { guides: state.guides });
+  inner.innerHTML = Engine.renderOverlayHTML(layout, state.project.settings, { guides: state.guides, draggable: true });
   els.overlay.innerHTML = '';
   els.overlay.appendChild(inner);
+  wireBoxDrag(inner);
+}
+
+// Box width is driven by the bilingual break kernel: the drag sets boxWidthPx,
+// the kernel re-breaks, and any resulting failure is fed back into the same
+// diagnostics panel rather than being visually smoothed over.
+function wireBoxDrag(root) {
+  root.querySelectorAll('[data-box-handle]').forEach((handle) => {
+    handle.addEventListener('pointerdown', (event) => {
+      event.preventDefault();
+      const groupId = handle.dataset.boxHandle;
+      const block = state.layout?.blocks?.find((item) => item.groupId === groupId);
+      if (!block) return;
+      const scale = state.zoom || 1;
+      const startX = event.clientX;
+      const startWidth = block.availableWidth;
+      const canvasLimit = block.canvasTextLimit;
+      handle.setPointerCapture(event.pointerId);
+      let lastWidth = startWidth;
+      const onMove = (moveEvent) => {
+        const delta = (moveEvent.clientX - startX) / scale;
+        const next = Math.max(Engine.MIN_BOX_WIDTH_PX, Math.min(canvasLimit, Math.round(startWidth + delta * 2)));
+        if (next === lastWidth) return;
+        lastWidth = next;
+        setGroupBoxWidth(groupId, next);
+      };
+      const onUp = () => {
+        handle.removeEventListener('pointermove', onMove);
+        handle.removeEventListener('pointerup', onUp);
+        handle.removeEventListener('pointercancel', onUp);
+        relayout();
+      };
+      handle.addEventListener('pointermove', onMove);
+      handle.addEventListener('pointerup', onUp);
+      handle.addEventListener('pointercancel', onUp);
+    });
+  });
+}
+
+function setGroupBoxWidth(groupId, width) {
+  const group = allProjectGroups().find((item) => item.id === groupId);
+  if (!group) return;
+  group.edit.boxWidthPx = width;
+  setDirty(true);
+  scheduleRelayout();
 }
 
 function updateLiveIssues(layout) {
@@ -598,10 +716,104 @@ function renderDiagnostics(layout) {
   }).join('');
   const globalIssues = issues.filter((issue) => !issue.groupId);
   const globalHtml = globalIssues.map((issue) => `<div class="diag error"><div class="dtitle">${escapeHtml(issueLabel(issue))}</div><div class="dmeta">${escapeHtml(issueMeta(issue))}</div></div>`).join('');
-  els.diagnostics.innerHTML = html + globalHtml || '<div class="diag good"><div class="dtitle">排版通过</div></div>';
+  const traceHtml = renderTracePanel(state.diagnostics, layout);
+  els.diagnostics.innerHTML = traceHtml + html + globalHtml || '<div class="diag good"><div class="dtitle">排版通过</div></div>';
   els.diagnostics.querySelectorAll('[data-suggest]').forEach((node) => {
-    node.addEventListener('click', () => applySuggestion(node.dataset.suggest));
+    node.addEventListener('click', () => { applySuggestion(node.dataset.suggest).catch((error) => toast(`应用建议失败：${error.message}`, 'bad')); });
   });
+  els.diagnostics.querySelectorAll('[data-locate]').forEach((node) => {
+    node.addEventListener('click', () => locateGroup(node.dataset.locate));
+  });
+}
+
+// The trace panel is the UI half of the break kernel: it shows which stage owns
+// each wrong line, the language pair, and the exact project revision the trace
+// was computed against. Every failure is reported, never defaulted away.
+function renderTracePanel(diagnostics, layout) {
+  if (!diagnostics) {
+    return `<div class="diag warn"><div class="dtitle"><span>断行追踪</span><span class="fbadge">无 trace</span></div>
+      <div class="dmeta">当前排版未附带追踪数据。</div></div>`;
+  }
+  const trace = state.trace;
+  const binding = diagnostics.binding;
+  if (!trace) {
+    return `<div class="diag warn"><div class="dtitle"><span>断行追踪</span><span class="fbadge">无 trace</span></div>
+      <div class="dmeta">当前排版未附带追踪数据。</div></div>`;
+  }
+  const problems = diagnostics.completeness?.problems || [];
+  const roleById = new Map();
+  for (const role of trace?.roles || []) roleById.set(`${role.groupId}|${role.role}`, role);
+  const attributions = (diagnostics.attributions || []).filter((item) => item.cause !== 'fit');
+  // One role-level cause (a line budget or a dragged box) applies to every line.
+  // Group those so the panel shows the cause once with the affected line range,
+  // instead of repeating an identical card per line.
+  const groups = new Map();
+  for (const item of attributions) {
+    const key = `${item.scope.groupId}|${item.scope.role}|${item.cause}|${item.stage}`;
+    if (!groups.has(key)) groups.set(key, { ...item, lines: [] });
+    if (item.line) groups.get(key).lines.push(item.line);
+  }
+  const rows = [...groups.values()].map((item) => {
+    const role = roleById.get(`${item.scope.groupId}|${item.scope.role}`);
+    const stage = item.stage || '—';
+    const phase = item.phase || '—';
+    const lineList = item.lines || [];
+    const lineLabel = lineList.length
+      ? (lineList.length === 1
+        ? `行 ${lineList[0].lineIndex + 1} · ${lineList[0].width}px${lineList[0].over > 0 ? ` (+${lineList[0].over})` : ''}`
+        : `行 ${lineList[0].lineIndex + 1}–${lineList[lineList.length - 1].lineIndex + 1} · 最宽 ${Math.max(...lineList.map((line) => line.width))}px`)
+      : '';
+    const evidence = item.evidence ? Object.entries(item.evidence)
+      .filter(([, value]) => value != null)
+      .map(([key, value]) => `${key}=${typeof value === 'object' ? JSON.stringify(value) : value}`)
+      .join(' ') : '';
+    const text = lineList.length === 1 ? (lineList[0].text || '') : '';
+    return `<div class="cause bad">
+      <div class="ctitle"><code>${escapeHtml(item.cause)}</code><span class="stage-tag">${escapeHtml(stage)} · ${escapeHtml(phase)}</span></div>
+      <div class="cmeta">${escapeHtml(item.scope.groupId)}/${item.scope.role === 'original' ? '原文' : '译文'}${lineLabel ? ` · ${escapeHtml(lineLabel)}` : ''}${role?.stages?.bind?.language ? ` · ${escapeHtml(role.stages.bind.language)}` : ''}</div>
+      ${text ? `<div class="ctext">${escapeHtml(text)}</div>` : ''}
+      <div class="cwhy">${escapeHtml(item.text)}</div>
+      ${evidence ? `<div class="cmeta">${escapeHtml(evidence)}</div>` : ''}
+      <div class="cmeta">画面 ${groupFrameLabel(item.scope.groupId)} <button class="btn small subtle" data-locate="${escapeHtml(item.scope.groupId)}">定位</button></div>
+    </div>`;
+  }).join('');
+  const gaps = (diagnostics.languageGaps || []).map((gap) => `
+    <div class="cause warn">
+      <div class="ctitle"><code>language-length-gap</code><span class="stage-tag">bind · language-binding</span></div>
+      <div class="cmeta">${escapeHtml(gap.groupId)} · 原文 ${gap.lines.original} 行 / 译文 ${gap.lines.translation} 行 · 宽度比 ${gap.widthRatio ?? '—'}</div>
+      <div class="cmeta">画面 ${groupFrameLabel(gap.groupId)} <button class="btn small subtle" data-locate="${escapeHtml(gap.groupId)}">定位</button></div>
+    </div>`).join('');
+  const bindingProblems = diagnostics.bindings || [];
+  const completeness = diagnostics.completeness?.ok
+    ? '<span style="color:var(--good)">8 阶段齐全</span>'
+    : `<span style="color:var(--bad)">${escapeHtml(problems.join(', '))}</span>`;
+  return `
+    <div class="diag ${problems.length || bindingProblems.length ? 'error' : 'good'}">
+      <div class="dtitle"><span>断行追踪 · 修订 r${escapeHtml(String(binding.revision ?? '—'))}</span>${completeness}</div>
+      <div class="dmeta">语言 ${escapeHtml(binding.languages?.original ?? '?')} → ${escapeHtml(binding.languages?.translation ?? '?')} · digest ${escapeHtml((binding.digest || '').slice(0, 12))}</div>
+      <div class="dmeta">${(trace?.roles || []).map((role) => `${escapeHtml(role.groupId)}/${role.role} ${escapeHtml((role.digest || '').slice(0, 8))}`).join(' · ')}</div>
+      ${bindingProblems.length ? `<div class="cwhy" style="color:var(--bad)">绑定问题：${escapeHtml(bindingProblems.map((item) => item.reason).join(', '))}</div>` : ''}
+      <div class="dmeta">把鼠标放到字幕框右缘拖动可改框宽；每行归因如下。</div>
+    </div>
+    ${rows || '<div class="diag good"><div class="dtitle">所有行在可用宽度内，无需归因</div></div>'}
+    ${gaps}`;
+}
+
+function groupFrameLabel(groupId) {
+  const group = allProjectGroups().find((item) => item.id === groupId);
+  if (!group) return '—';
+  const start = Math.round(group.edit.start * state.fps);
+  const end = Math.round(group.edit.end * state.fps);
+  return `F${start}–F${end}（结束帧独占）· ${group.edit.start.toFixed(2)}–${group.edit.end.toFixed(2)}s`;
+}
+
+function locateGroup(groupId) {
+  const group = allProjectGroups().find((item) => item.id === groupId);
+  if (!group) return;
+  state.activeGroupId = groupId;
+  renderGroupTabs();
+  renderEditor();
+  setTime(groupMidpoint(groupId));
 }
 
 function issueLabel(issue) {
@@ -633,7 +845,7 @@ function issueMeta(issue) {
   return issue.message || issue.label || '';
 }
 
-function applySuggestion(key) {
+async function applySuggestion(key) {
   const [groupId, role, index] = key.split('|');
   const group = state.layout?.suggestions?.find((item) => item.groupId === groupId && item.role === role);
   const suggestion = group?.suggestions?.[Number(index)];

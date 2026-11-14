@@ -157,6 +157,51 @@ const editTranslation = '船员把水听器放入海沟，那里只传来一声�
   await page.waitForTimeout(500);
   await page.screenshot({ path: '/tmp/ui-check.png', fullPage: true });
 
+  // break-decision diagnostics are bound to the live revision and driven by the kernel
+  await page.evaluate(() => document.querySelector('[data-group="g02"]').click());
+  await page.waitForTimeout(1200);
+  const tracePanel = await page.textContent('#diagnostics');
+  check('trace panel reports the bound project revision', /断行追踪 · 修订 r\d+/.test(tracePanel), tracePanel.slice(0, 80));
+  check('trace panel reports stage completeness', tracePanel.includes('8 阶段齐全'), tracePanel.slice(0, 160));
+  check('trace panel names the owning stage for each cause',
+    tracePanel.includes('solve · line-decision') || tracePanel.includes('candidates · kinsoku')
+      || tracePanel.includes('mount · framing') || tracePanel.includes('bind · language-binding'),
+    tracePanel.slice(0, 400));
+  check('trace panel binds each cause to a picture frame', /画面 F\d+–F\d+/.test(tracePanel), tracePanel.slice(0, 400));
+  check('trace panel exposes language correspondence', tracePanel.includes('语言 en → zh-Hans'), tracePanel.slice(0, 160));
+
+  const beforeBox = await page.evaluate(() => ({
+    avail: Number(document.querySelector('[data-group-block]')?.dataset.availableWidth || 0),
+    lines: [...document.querySelectorAll('#overlay .line[data-role="original"]')].map((node) => node.textContent),
+  }));
+  const handle = await page.$('[data-box-handle]');
+  check('the subtitle box exposes a drag handle', Boolean(handle));
+  if (handle) {
+    const rect = await handle.boundingBox();
+    await page.mouse.move(rect.x + rect.width / 2, rect.y + rect.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(rect.x + rect.width / 2 - 240, rect.y + rect.height / 2, { steps: 8 });
+    await page.mouse.up();
+    await page.waitForTimeout(1400);
+  }
+  const afterBox = await page.evaluate(() => ({
+    avail: Number(document.querySelector('[data-group-block]')?.dataset.availableWidth || 0),
+    lines: [...document.querySelectorAll('#overlay .line[data-role="original"]')].map((node) => node.textContent),
+    input: document.querySelector('[data-group-box]')?.value,
+    panel: document.getElementById('diagnostics')?.textContent || '',
+    dirty: document.getElementById('save-status')?.textContent || '',
+  }));
+  check('dragging the box narrows the measured width', afterBox.avail < beforeBox.avail, `${beforeBox.avail} -> ${afterBox.avail}`);
+  check('dragging the box changes the break result', afterBox.lines.join('|') !== beforeBox.lines.join('|'), afterBox.lines.join(' | ').slice(0, 120));
+  check('dragging the box writes the width back into the editor', afterBox.input === String(afterBox.avail), `${afterBox.input} vs ${afterBox.avail}`);
+  check('dragging the box marks the project dirty', afterBox.dirty.includes('未保存'), afterBox.dirty);
+  check('narrowed box attributes the cause to the mount stage',
+    afterBox.panel.includes('box-width-is-binding') && afterBox.panel.includes('mount · framing'),
+    afterBox.panel.slice(0, 400));
+  check('narrowed box still reports the unbreakable token at the candidates stage',
+    afterBox.panel.includes('unbreakable-token') && afterBox.panel.includes('candidates · kinsoku'),
+    afterBox.panel.slice(0, 400));
+
   // render through the UI is covered by selftest; here ensure the button exists and is enabled
   check('render button is available in the UI', await page.isEnabled('#btn-render'));
 

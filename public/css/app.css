@@ -79,6 +79,10 @@ body { display: flex; flex-direction: column; overflow: hidden; }
 .stage-shell { position: relative; margin: auto; flex: 0 0 auto; }
 #video { display: block; background: #000; }
 #overlay { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#overlay #subtitle-canvas { pointer-events: none; }
+#overlay .group-block { pointer-events: none; }
+#overlay .box-handle { pointer-events: auto; }
+#overlay .box-handle:hover { opacity: 1; box-shadow: 0 0 0 2px rgba(255,255,255,.35); }
 .stage-shell.zoomed { transform-origin: top left; }
 
 .stage-foot { display: flex; gap: 16px; align-items: center; padding: 7px 14px; border-top: 1px solid var(--line); background: #0c1117; font-size: 12px; min-height: 32px; flex: 0 0 auto; }
@@ -123,6 +127,17 @@ body { display: flex; flex-direction: column; overflow: hidden; }
 .lines-table td.t { font: 12px/1.35 "Bench SC", "Bench Sans", "Bench Emoji", sans-serif; color: #e4eefb; }
 .lines-table td.w { font-family: var(--mono); color: var(--muted); white-space: nowrap; text-align: right; }
 .lines-table td.w.over { color: var(--bad); }
+
+.cause { border: 1px solid var(--line); border-radius: 7px; padding: 8px 9px; background: #0c1117; display: flex; flex-direction: column; gap: 3px; }
+.cause.bad { border-color: #67351f; }
+.cause.warn { border-color: #6a5a26; }
+.cause .ctitle { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; }
+.cause code { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+.cause .stage-tag { font-family: var(--mono); font-size: 10px; color: var(--accent-2); border: 1px solid rgba(111,211,255,.35); padding: 0 5px; border-radius: 4px; white-space: nowrap; }
+.cause .cmeta { color: var(--muted); font-family: var(--mono); font-size: 10.5px; overflow-wrap: anywhere; }
+.cause .cmeta .btn { margin-left: 4px; }
+.cause .ctext { font: 12px/1.35 "Bench SC", "Bench Sans", "Bench Emoji", sans-serif; color: #e4eefb; overflow-wrap: anywhere; }
+.cause .cwhy { font-size: 11px; color: #c3cfdd; }
 
 .render-list { display: flex; flex-direction: column; gap: 8px; font-size: 12px; }
 .render-item { border: 1px solid var(--line); border-radius: 7px; padding: 8px 9px; background: #0c1117; }
